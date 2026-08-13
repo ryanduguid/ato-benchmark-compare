@@ -1,0 +1,4640 @@
+{
+ "schema_version": 1,
+ "benchmark_year": "2023-24",
+ "business_type_count": 100,
+ "source": {
+  "publisher": "Australian Taxation Office",
+  "dataset": "Small Business Benchmarks",
+  "dataset_page": "https://data.gov.au/data/dataset/small-business-benchmarks",
+  "resource_name": "2023-24 Benchmarks",
+  "resource_url": "https://data.gov.au/data/dataset/591b444b-be7f-4121-8252-119a9fe07c19/resource/db3ab8b7-e029-48de-8e7a-c61532e25496/download/small-business-benchmarks-2023-24-data.xlsx",
+  "resource_last_modified": "2026-03-15T22:07:39.563377",
+  "retrieved": "2026-08-13",
+  "sha256": "84925348cc6abfdbfb2cd14c62456e02d44057b7c7b444a6839e6179f71440f5",
+  "bytes": 20826,
+  "licence": "Creative Commons Attribution 2.5 Australia",
+  "licence_url": "https://creativecommons.org/licenses/by/2.5/au/"
+ },
+ "business_types": [
+  {
+   "name": "Air conditioning, refrigeration and heating services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.54",
+      "max": "0.73"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $600,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.65",
+      "max": "0.78"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.79",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Alarm systems installation - fire and security",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.53",
+      "max": "0.71"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $600,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.59",
+      "max": "0.76"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Architectural services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$135,000 - $220,000",
+     "turnover_from": "135000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "220000",
+     "total_expenses_to_turnover": {
+      "min": "0.29",
+      "max": "0.56"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$220,001 - $400,000",
+     "turnover_from": "220000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "400000",
+     "total_expenses_to_turnover": {
+      "min": "0.4",
+      "max": "0.65"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $400,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.61",
+      "max": "0.79"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Automotive electrical services",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $250,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.58",
+      "max": "0.74"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.28",
+      "max": "0.42"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $750,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "750000",
+     "total_expenses_to_turnover": {
+      "min": "0.65",
+      "max": "0.8"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.33",
+      "max": "0.43"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $750,000",
+     "turnover_from": "750000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.79",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.37",
+      "max": "0.46"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Bakeries and hot bread shops",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $400,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "400000",
+     "total_expenses_to_turnover": {
+      "min": "0.69",
+      "max": "0.81"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.31",
+      "max": "0.38"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$400,001 - $750,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "750000",
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.34",
+      "max": "0.39"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $750,000",
+     "turnover_from": "750000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.82",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.29",
+      "max": "0.36"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Barber and men's hairdressing",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $150,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.43",
+      "max": "0.61"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "More than $150,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.65",
+      "max": "0.81"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Beauty services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $200,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.48",
+      "max": "0.69"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $400,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "400000",
+     "total_expenses_to_turnover": {
+      "min": "0.69",
+      "max": "0.83"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $400,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.77",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Blocklaying services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$75,000 - $155,000",
+     "turnover_from": "75000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "155000",
+     "total_expenses_to_turnover": {
+      "min": "0.38",
+      "max": "0.57"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$155,001 - $500,000",
+     "turnover_from": "155000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.58",
+      "max": "0.71"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Book retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.64",
+      "max": "0.82"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.29",
+      "max": "0.51"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $750,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "750000",
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.45",
+      "max": "0.57"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $750,000",
+     "turnover_from": "750000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.88",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.53",
+      "max": "0.56"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Bottle shops and liquor retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $500,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.63",
+      "max": "0.74"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$500,001 - $2,000,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "2000000",
+     "total_expenses_to_turnover": {
+      "min": "0.9",
+      "max": "0.95"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.69",
+      "max": "0.77"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $2,000,000",
+     "turnover_from": "2000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.92",
+      "max": "0.95"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.74",
+      "max": "0.79"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Bricklaying services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.29",
+      "max": "0.46"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $350,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "350000",
+     "total_expenses_to_turnover": {
+      "min": "0.51",
+      "max": "0.68"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $350,000",
+     "turnover_from": "350000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.7",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Cabinet makers",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$100,000 - $300,000",
+     "turnover_from": "100000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.53",
+      "max": "0.71"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$300,001 - $900,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "900000",
+     "total_expenses_to_turnover": {
+      "min": "0.72",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $900,000",
+     "turnover_from": "900000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.82",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Cake shops and patisseries",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $300,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.62",
+      "max": "0.79"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.28",
+      "max": "0.37"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$300,001 - $600,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.3",
+      "max": "0.35"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.83",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.31",
+      "max": "0.37"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Carpentry services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $110,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "110000",
+     "total_expenses_to_turnover": {
+      "min": "0.32",
+      "max": "0.5"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$110,001 - $400,000",
+     "turnover_from": "110000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "400000",
+     "total_expenses_to_turnover": {
+      "min": "0.46",
+      "max": "0.66"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $400,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Carpet laying services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $100,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "100000",
+     "total_expenses_to_turnover": {
+      "min": "0.32",
+      "max": "0.45"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$100,001 - $250,000",
+     "turnover_from": "100000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.37",
+      "max": "0.55"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $250,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.6",
+      "max": "0.79"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Catering services",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $200,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.6",
+      "max": "0.76"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.31",
+      "max": "0.43"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $600,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.68",
+      "max": "0.83"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.32",
+      "max": "0.41"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.31",
+      "max": "0.41"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Cement rendering",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.37",
+      "max": "0.52"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $400,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "400000",
+     "total_expenses_to_turnover": {
+      "min": "0.61",
+      "max": "0.77"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $400,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Chicken shops",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$60,000 - $250,000",
+     "turnover_from": "60000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.38",
+      "max": "0.46"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $575,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "575000",
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.41",
+      "max": "0.49"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $575,000",
+     "turnover_from": "575000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.85",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.4",
+      "max": "0.48"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Child care services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $200,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.42",
+      "max": "0.59"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $600,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.6",
+      "max": "0.77"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.79",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Chiropractic and osteopathic services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $200,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.34",
+      "max": "0.52"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $600,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.54",
+      "max": "0.71"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.67",
+      "max": "0.82"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Cleaning services - building and other industrial",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $115,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "115000",
+     "total_expenses_to_turnover": {
+      "min": "0.3",
+      "max": "0.53"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$115,001 - $250,000",
+     "turnover_from": "115000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.46",
+      "max": "0.69"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $250,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.69",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Cleaning services - carpet, rug and furniture upholstery",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $150,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.37",
+      "max": "0.58"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $300,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.43",
+      "max": "0.61"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $300,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.6",
+      "max": "0.75"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Clothing retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.72",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.39",
+      "max": "0.55"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $500,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.46",
+      "max": "0.58"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.83",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.48",
+      "max": "0.57"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Coffee shops",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.73",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.34",
+      "max": "0.42"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $600,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.35",
+      "max": "0.41"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.86",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.33",
+      "max": "0.38"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Computer retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $200,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.64",
+      "max": "0.8"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.4",
+      "max": "0.57"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $600,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.7",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.43",
+      "max": "0.56"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.82",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.49",
+      "max": "0.65"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Concreting services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $200,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.38",
+      "max": "0.59"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $500,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.63",
+      "max": "0.77"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Confectionery retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.73",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.42",
+      "max": "0.55"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "More than $250,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.43",
+      "max": "0.53"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Courier services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $100,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "100000",
+     "total_expenses_to_turnover": {
+      "min": "0.42",
+      "max": "0.58"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$100,001 - $300,000",
+     "turnover_from": "100000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.48",
+      "max": "0.71"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $300,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Craft shops",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $150,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.66",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.35",
+      "max": "0.51"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "More than $150,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.38",
+      "max": "0.53"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Delicatessen",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.4",
+      "max": "0.57"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $500,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.8",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.46",
+      "max": "0.56"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.86",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.52",
+      "max": "0.63"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Delivery services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $90,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "90000",
+     "total_expenses_to_turnover": {
+      "min": "0.38",
+      "max": "0.56"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$90,001 - $210,000",
+     "turnover_from": "90000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "210000",
+     "total_expenses_to_turnover": {
+      "min": "0.48",
+      "max": "0.66"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $210,000",
+     "turnover_from": "210000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.66",
+      "max": "0.82"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Dental specialists",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $300,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.43",
+      "max": "0.65"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$300,001 - $900,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "900000",
+     "total_expenses_to_turnover": {
+      "min": "0.6",
+      "max": "0.73"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $900,000",
+     "turnover_from": "900000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.59",
+      "max": "0.72"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Dental surgeons - general",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $435,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "435000",
+     "total_expenses_to_turnover": {
+      "min": "0.55",
+      "max": "0.67"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$435,001 - $815,000",
+     "turnover_from": "435000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "815000",
+     "total_expenses_to_turnover": {
+      "min": "0.65",
+      "max": "0.73"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $815,000",
+     "turnover_from": "815000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.67",
+      "max": "0.8"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Discount and variety stores",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.79",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.42",
+      "max": "0.53"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $600,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.83",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.47",
+      "max": "0.52"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.86",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.47",
+      "max": "0.55"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Domestic appliance repair and maintenance",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.48",
+      "max": "0.67"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $600,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.59",
+      "max": "0.76"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.77",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Driving schools and instructors",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $75,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "75000",
+     "total_expenses_to_turnover": {
+      "min": "0.32",
+      "max": "0.45"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$75,001 - $165,000",
+     "turnover_from": "75000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "165000",
+     "total_expenses_to_turnover": {
+      "min": "0.34",
+      "max": "0.5"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $165,000",
+     "turnover_from": "165000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.51",
+      "max": "0.7"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Electrical and electronic product retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $750,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "750000",
+     "total_expenses_to_turnover": {
+      "min": "0.71",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.44",
+      "max": "0.61"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$750,001 - $2,000,000",
+     "turnover_from": "750000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "2000000",
+     "total_expenses_to_turnover": {
+      "min": "0.83",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.54",
+      "max": "0.67"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $2,000,000",
+     "turnover_from": "2000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.89",
+      "max": "0.95"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.59",
+      "max": "0.73"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Electrical services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $200,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.51",
+      "max": "0.68"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $500,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.59",
+      "max": "0.75"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Entertainment media retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $350,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "350000",
+     "total_expenses_to_turnover": {
+      "min": "0.54",
+      "max": "0.75"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.32",
+      "max": "0.51"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "More than $350,000",
+     "turnover_from": "350000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.39",
+      "max": "0.56"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Fence construction",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $250,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.59",
+      "max": "0.71"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $400,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "400000",
+     "total_expenses_to_turnover": {
+      "min": "0.66",
+      "max": "0.77"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $400,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Fish and chips shops",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.79",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.43",
+      "max": "0.49"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $500,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.8",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.45",
+      "max": "0.51"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.44",
+      "max": "0.5"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Fish and seafood retailing - fresh",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $500,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.58",
+      "max": "0.69"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$500,001 - $1,000,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "1000000",
+     "total_expenses_to_turnover": {
+      "min": "0.85",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.57",
+      "max": "0.67"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $1,000,000",
+     "turnover_from": "1000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.9",
+      "max": "0.94"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.63",
+      "max": "0.73"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Floor covering retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $800,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "800000",
+     "total_expenses_to_turnover": {
+      "min": "0.66",
+      "max": "0.83"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.35",
+      "max": "0.54"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$800,001 - $2,000,000",
+     "turnover_from": "800000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "2000000",
+     "total_expenses_to_turnover": {
+      "min": "0.85",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.48",
+      "max": "0.6"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $2,000,000",
+     "turnover_from": "2000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.88",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.51",
+      "max": "0.64"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Florists",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $300,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.68",
+      "max": "0.82"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.4",
+      "max": "0.51"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$300,001 - $600,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.43",
+      "max": "0.5"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.83",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.45",
+      "max": "0.53"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Footwear retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $180,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "180000",
+     "total_expenses_to_turnover": {
+      "min": "0.66",
+      "max": "0.82"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.4",
+      "max": "0.59"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$180,001 - $600,000",
+     "turnover_from": "180000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.51",
+      "max": "0.59"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.84",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.48",
+      "max": "0.56"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Fruit and vegetable retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $450,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "450000",
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.58",
+      "max": "0.71"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$450,001 - $1,100,000",
+     "turnover_from": "450000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "1100000",
+     "total_expenses_to_turnover": {
+      "min": "0.87",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.65",
+      "max": "0.73"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $1,100,000",
+     "turnover_from": "1100000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.92",
+      "max": "0.96"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.69",
+      "max": "0.76"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Fuel retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$75,000 - $500,000",
+     "turnover_from": "75000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.79",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.65",
+      "max": "0.79"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$500,001 - $2,000,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "2000000",
+     "total_expenses_to_turnover": {
+      "min": "0.91",
+      "max": "0.96"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.67",
+      "max": "0.81"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $2,000,000",
+     "turnover_from": "2000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.96",
+      "max": "0.98"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.79",
+      "max": "0.88"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Furniture removalists",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $125,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "125000",
+     "total_expenses_to_turnover": {
+      "min": "0.43",
+      "max": "0.65"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$125,001 - $525,000",
+     "turnover_from": "125000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "525000",
+     "total_expenses_to_turnover": {
+      "min": "0.6",
+      "max": "0.79"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $525,000",
+     "turnover_from": "525000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Furniture retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $500,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.73",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.42",
+      "max": "0.55"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$500,001 - $1,000,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "1000000",
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.47",
+      "max": "0.57"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $1,000,000",
+     "turnover_from": "1000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.87",
+      "max": "0.95"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.52",
+      "max": "0.58"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Garden supplies retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.67",
+      "max": "0.83"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.34",
+      "max": "0.5"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $750,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "750000",
+     "total_expenses_to_turnover": {
+      "min": "0.74",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.39",
+      "max": "0.53"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $750,000",
+     "turnover_from": "750000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.84",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.46",
+      "max": "0.56"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Gift stores",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $150,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.77",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.44",
+      "max": "0.56"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $600,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.79",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.46",
+      "max": "0.55"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.84",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.48",
+      "max": "0.56"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Glazing services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $200,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.46",
+      "max": "0.65"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $600,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.62",
+      "max": "0.76"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.77",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Grocery retailing and convenience stores",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $300,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.82",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.59",
+      "max": "0.71"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$300,001 - $950,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "950000",
+     "total_expenses_to_turnover": {
+      "min": "0.88",
+      "max": "0.94"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.64",
+      "max": "0.73"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $950,000",
+     "turnover_from": "950000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.92",
+      "max": "0.96"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.71",
+      "max": "0.77"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Hairdressers",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.4",
+      "max": "0.57"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $300,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.58",
+      "max": "0.75"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $300,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Hardware and building supplies retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $400,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "400000",
+     "total_expenses_to_turnover": {
+      "min": "0.72",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.47",
+      "max": "0.63"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$400,001 - $1,000,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "1000000",
+     "total_expenses_to_turnover": {
+      "min": "0.82",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.55",
+      "max": "0.66"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $1,000,000",
+     "turnover_from": "1000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.87",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.61",
+      "max": "0.69"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Health and fitness centres",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $175,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "175000",
+     "total_expenses_to_turnover": {
+      "min": "0.4",
+      "max": "0.64"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$175,001 - $600,000",
+     "turnover_from": "175000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.69",
+      "max": "0.83"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.72",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Health food retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $400,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "400000",
+     "total_expenses_to_turnover": {
+      "min": "0.73",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.48",
+      "max": "0.64"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$400,001 - $600,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.86",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.55",
+      "max": "0.64"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.87",
+      "max": "0.94"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.57",
+      "max": "0.65"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Homewares retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.72",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.41",
+      "max": "0.55"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $900,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "900000",
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.47",
+      "max": "0.56"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $900,000",
+     "turnover_from": "900000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.86",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.49",
+      "max": "0.6"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Ice cream retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $275,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "275000",
+     "total_expenses_to_turnover": {
+      "min": "0.69",
+      "max": "0.82"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.26",
+      "max": "0.33"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$275,001 - $475,000",
+     "turnover_from": "275000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "475000",
+     "total_expenses_to_turnover": {
+      "min": "0.83",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.28",
+      "max": "0.34"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $475,000",
+     "turnover_from": "475000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.8",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.27",
+      "max": "0.35"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Kebab shops",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $170,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "170000",
+     "total_expenses_to_turnover": {
+      "min": "0.77",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.38",
+      "max": "0.47"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$170,001 - $300,000",
+     "turnover_from": "170000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.41",
+      "max": "0.47"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $300,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.84",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.43",
+      "max": "0.49"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Landscape construction",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $200,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.46",
+      "max": "0.64"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $500,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.63",
+      "max": "0.77"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Laundry and dry-cleaning services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $150,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.62",
+      "max": "0.76"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $600,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.63",
+      "max": "0.79"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Lawn mower retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $550,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "550000",
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.83"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.48",
+      "max": "0.62"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$550,001 - $1,450,000",
+     "turnover_from": "550000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "1450000",
+     "total_expenses_to_turnover": {
+      "min": "0.85",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.59",
+      "max": "0.64"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $1,450,000",
+     "turnover_from": "1450000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.89",
+      "max": "0.94"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.64",
+      "max": "0.69"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Lawn mowing and garden services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $90,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "90000",
+     "total_expenses_to_turnover": {
+      "min": "0.36",
+      "max": "0.51"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$90,001 - $175,000",
+     "turnover_from": "90000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "175000",
+     "total_expenses_to_turnover": {
+      "min": "0.41",
+      "max": "0.58"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $175,000",
+     "turnover_from": "175000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.58",
+      "max": "0.74"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Machinery and equipment repairs and maintenance",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $200,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.47",
+      "max": "0.68"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $600,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.54",
+      "max": "0.76"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.77",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Manchester and other textile goods retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $150,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.64",
+      "max": "0.83"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.38",
+      "max": "0.53"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $500,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.74",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.42",
+      "max": "0.54"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.46",
+      "max": "0.56"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Meat and poultry retailing - fresh",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $450,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "450000",
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.56",
+      "max": "0.66"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$450,001 - $850,000",
+     "turnover_from": "450000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "850000",
+     "total_expenses_to_turnover": {
+      "min": "0.85",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.6",
+      "max": "0.68"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $850,000",
+     "turnover_from": "850000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.87",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.61",
+      "max": "0.69"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Motor vehicle parts and batteries retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $400,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "400000",
+     "total_expenses_to_turnover": {
+      "min": "0.69",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.42",
+      "max": "0.61"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$400,001 - $1,250,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "1250000",
+     "total_expenses_to_turnover": {
+      "min": "0.8",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.5",
+      "max": "0.62"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $1,250,000",
+     "turnover_from": "1250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.86",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.55",
+      "max": "0.64"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Motor vehicle retail - new and used car",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$75,000 - $500,000",
+     "turnover_from": "75000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.6",
+      "max": "0.78"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$500,001 - $1,500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "1500000",
+     "total_expenses_to_turnover": {
+      "min": "0.87",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.67",
+      "max": "0.82"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $1,500,000",
+     "turnover_from": "1500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.91",
+      "max": "0.96"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.76",
+      "max": "0.85"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Musical instruments retail",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $285,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "285000",
+     "total_expenses_to_turnover": {
+      "min": "0.58",
+      "max": "0.83"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.4",
+      "max": "0.55"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$285,001 - $765,000",
+     "turnover_from": "285000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "765000",
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.51",
+      "max": "0.63"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $765,000",
+     "turnover_from": "765000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.87",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.57",
+      "max": "0.68"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Newsagents",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $500,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.77",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.42",
+      "max": "0.59"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$500,001 - $1,000,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "1000000",
+     "total_expenses_to_turnover": {
+      "min": "0.83",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.47",
+      "max": "0.62"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $1,000,000",
+     "turnover_from": "1000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.89",
+      "max": "0.95"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.55",
+      "max": "0.81"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Painting services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.36",
+      "max": "0.51"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $600,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.54",
+      "max": "0.71"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.74",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Panel beating and smash repairs",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.46",
+      "max": "0.67"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $300,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.51",
+      "max": "0.73"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $300,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.73",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Pest control services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.43",
+      "max": "0.62"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $400,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "400000",
+     "total_expenses_to_turnover": {
+      "min": "0.45",
+      "max": "0.66"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $400,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.64",
+      "max": "0.81"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Pets and pet supply retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.55",
+      "max": "0.79"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.3",
+      "max": "0.54"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $750,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "750000",
+     "total_expenses_to_turnover": {
+      "min": "0.8",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.39",
+      "max": "0.55"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $750,000",
+     "turnover_from": "750000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.85",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.54",
+      "max": "0.64"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Pharmacy",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$400,000 - $1,500,000",
+     "turnover_from": "400000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "1500000",
+     "total_expenses_to_turnover": {
+      "min": "0.86",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.61",
+      "max": "0.67"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$1,500,001 - $3,500,000",
+     "turnover_from": "1500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "3500000",
+     "total_expenses_to_turnover": {
+      "min": "0.87",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.63",
+      "max": "0.67"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $3,500,000",
+     "turnover_from": "3500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.89",
+      "max": "0.94"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.66",
+      "max": "0.7"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Physiotherapy services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$75,000 - $240,000",
+     "turnover_from": "75000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "240000",
+     "total_expenses_to_turnover": {
+      "min": "0.29",
+      "max": "0.5"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$240,001 - $600,000",
+     "turnover_from": "240000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.52",
+      "max": "0.73"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.73",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Picture framing retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$55,000 - $140,000",
+     "turnover_from": "55000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "140000",
+     "total_expenses_to_turnover": {
+      "min": "0.56",
+      "max": "0.73"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.26",
+      "max": "0.34"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$140,001 - $260,000",
+     "turnover_from": "140000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "260000",
+     "total_expenses_to_turnover": {
+      "min": "0.6",
+      "max": "0.76"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.25",
+      "max": "0.33"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $260,000",
+     "turnover_from": "260000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.69",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.26",
+      "max": "0.31"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Pizza shops - takeaway",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $150,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.33",
+      "max": "0.44"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $600,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.8",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.38",
+      "max": "0.44"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.87",
+      "max": "0.94"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.34",
+      "max": "0.41"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Plastering and ceiling services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $300,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.35",
+      "max": "0.55"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$300,001 - $1,000,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "1000000",
+     "total_expenses_to_turnover": {
+      "min": "0.68",
+      "max": "0.82"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $1,000,000",
+     "turnover_from": "1000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.84",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Plumbing services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.5",
+      "max": "0.66"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $600,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.59",
+      "max": "0.74"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.75",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Printing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $200,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.64",
+      "max": "0.81"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.26",
+      "max": "0.43"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $500,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.72",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.3",
+      "max": "0.43"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.8",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.33",
+      "max": "0.46"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Printing support services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $300,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.59",
+      "max": "0.79"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$300,001 - $900,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "900000",
+     "total_expenses_to_turnover": {
+      "min": "0.68",
+      "max": "0.83"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $900,000",
+     "turnover_from": "900000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Pubs, taverns and bars",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$100,000 - $750,000",
+     "turnover_from": "100000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "750000",
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.34",
+      "max": "0.46"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$750,001 - $2,500,000",
+     "turnover_from": "750000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "2500000",
+     "total_expenses_to_turnover": {
+      "min": "0.86",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.33",
+      "max": "0.41"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $2,500,000",
+     "turnover_from": "2500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.87",
+      "max": "0.94"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.31",
+      "max": "0.42"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Restaurants",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $500,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.79",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.32",
+      "max": "0.39"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$500,001 - $2,000,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "2000000",
+     "total_expenses_to_turnover": {
+      "min": "0.84",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.32",
+      "max": "0.38"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $2,000,000",
+     "turnover_from": "2000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.88",
+      "max": "0.94"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.31",
+      "max": "0.36"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Road freight transport services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $200,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.52",
+      "max": "0.71"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $600,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.63",
+      "max": "0.8"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Roofing services, including roof tiling, guttering and metal roofing",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $325,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "325000",
+     "total_expenses_to_turnover": {
+      "min": "0.43",
+      "max": "0.63"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$325,001 - $900,000",
+     "turnover_from": "325000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "900000",
+     "total_expenses_to_turnover": {
+      "min": "0.65",
+      "max": "0.8"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $900,000",
+     "turnover_from": "900000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.8",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Sports and physical recreation instruction",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.36",
+      "max": "0.58"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $600,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.56",
+      "max": "0.75"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.71",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Sports, camping and fishing retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.68",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.45",
+      "max": "0.62"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $750,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "750000",
+     "total_expenses_to_turnover": {
+      "min": "0.78",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.53",
+      "max": "0.63"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $750,000",
+     "turnover_from": "750000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.86",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.58",
+      "max": "0.66"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Stationery goods retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.66",
+      "max": "0.82"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.39",
+      "max": "0.58"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $750,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "750000",
+     "total_expenses_to_turnover": {
+      "min": "0.81",
+      "max": "0.88"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.47",
+      "max": "0.57"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $750,000",
+     "turnover_from": "750000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.86",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.52",
+      "max": "0.63"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Takeaway food services",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $200,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.69",
+      "max": "0.82"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.34",
+      "max": "0.42"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $600,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.36",
+      "max": "0.43"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.84",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.35",
+      "max": "0.41"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Tiling services - floor and wall",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $150,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.36",
+      "max": "0.52"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $600,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "600000",
+     "total_expenses_to_turnover": {
+      "min": "0.53",
+      "max": "0.71"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $600,000",
+     "turnover_from": "600000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.79",
+      "max": "0.9"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Timber floor sanding",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $100,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "100000",
+     "total_expenses_to_turnover": {
+      "min": "0.42",
+      "max": "0.56"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$100,001 - $200,000",
+     "turnover_from": "100000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.44",
+      "max": "0.62"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $200,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.59",
+      "max": "0.78"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Tobacco retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$100,000 - $700,000",
+     "turnover_from": "100000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "700000",
+     "total_expenses_to_turnover": {
+      "min": "0.84",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.66",
+      "max": "0.78"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$700,001 - $1,500,000",
+     "turnover_from": "700000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "1500000",
+     "total_expenses_to_turnover": {
+      "min": "0.91",
+      "max": "0.95"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.78",
+      "max": "0.86"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $1,500,000",
+     "turnover_from": "1500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.94",
+      "max": "0.97"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.86",
+      "max": "0.9"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Towing services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $200,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "200000",
+     "total_expenses_to_turnover": {
+      "min": "0.55",
+      "max": "0.7"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$200,001 - $500,000",
+     "turnover_from": "200000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "500000",
+     "total_expenses_to_turnover": {
+      "min": "0.61",
+      "max": "0.78"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $500,000",
+     "turnover_from": "500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.73",
+      "max": "0.86"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Toy and game retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $150,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "150000",
+     "total_expenses_to_turnover": {
+      "min": "0.76",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.47",
+      "max": "0.63"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$150,001 - $550,000",
+     "turnover_from": "150000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "550000",
+     "total_expenses_to_turnover": {
+      "min": "0.77",
+      "max": "0.89"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.51",
+      "max": "0.65"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $550,000",
+     "turnover_from": "550000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.85",
+      "max": "0.92"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.56",
+      "max": "0.64"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Tutoring and coaching",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$50,000 - $300,000",
+     "turnover_from": "50000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.31",
+      "max": "0.63"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$300,001 - $800,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "800000",
+     "total_expenses_to_turnover": {
+      "min": "0.57",
+      "max": "0.8"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $800,000",
+     "turnover_from": "800000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.69",
+      "max": "0.87"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Tyre retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $1,000,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "1000000",
+     "total_expenses_to_turnover": {
+      "min": "0.83",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.57",
+      "max": "0.67"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$1,000,001 - $2,500,000",
+     "turnover_from": "1000000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "2500000",
+     "total_expenses_to_turnover": {
+      "min": "0.88",
+      "max": "0.93"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.58",
+      "max": "0.65"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $2,500,000",
+     "turnover_from": "2500000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.9",
+      "max": "0.94"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.61",
+      "max": "0.68"
+     }
+    }
+   ]
+  },
+  {
+   "name": "Veterinary services",
+   "key_ratio": "total_expenses_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$100,000 - $300,000",
+     "turnover_from": "100000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "300000",
+     "total_expenses_to_turnover": {
+      "min": "0.44",
+      "max": "0.67"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "medium",
+     "label": "$300,001 - $800,000",
+     "turnover_from": "300000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "800000",
+     "total_expenses_to_turnover": {
+      "min": "0.55",
+      "max": "0.77"
+     },
+     "cost_of_sales_to_turnover": null
+    },
+    {
+     "band": "high",
+     "label": "More than $800,000",
+     "turnover_from": "800000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.74",
+      "max": "0.84"
+     },
+     "cost_of_sales_to_turnover": null
+    }
+   ]
+  },
+  {
+   "name": "Watch and jewellery retailing",
+   "key_ratio": "cost_of_sales_to_turnover",
+   "turnover_bands": [
+    {
+     "band": "low",
+     "label": "$65,000 - $250,000",
+     "turnover_from": "65000",
+     "turnover_from_inclusive": true,
+     "turnover_to": "250000",
+     "total_expenses_to_turnover": {
+      "min": "0.65",
+      "max": "0.79"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.3",
+      "max": "0.44"
+     }
+    },
+    {
+     "band": "medium",
+     "label": "$250,001 - $750,000",
+     "turnover_from": "250000",
+     "turnover_from_inclusive": false,
+     "turnover_to": "750000",
+     "total_expenses_to_turnover": {
+      "min": "0.73",
+      "max": "0.85"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.37",
+      "max": "0.5"
+     }
+    },
+    {
+     "band": "high",
+     "label": "More than $750,000",
+     "turnover_from": "750000",
+     "turnover_from_inclusive": false,
+     "turnover_to": null,
+     "total_expenses_to_turnover": {
+      "min": "0.82",
+      "max": "0.91"
+     },
+     "cost_of_sales_to_turnover": {
+      "min": "0.44",
+      "max": "0.56"
+     }
+    }
+   ]
+  }
+ ]
+}

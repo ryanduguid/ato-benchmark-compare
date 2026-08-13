@@ -1,0 +1,90 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.10"   # the declared floor
+          - os: ubuntu-latest
+            python: "3.13"
+          - os: windows-latest
+            python: "3.12"   # where path handling and the ANSI codepage diverge
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: install the locked toolchain
+        run: python -m pip install "uv==0.12.0"
+      - run: uv run --locked --extra dev --python ${{ matrix.python }} pytest -q
+
+  dependency-audit:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: install the locked toolchain
+        run: python -m pip install "uv==0.12.0"
+      - name: audit the locked project environment
+        run: uv run --locked --extra dev --with "pip-audit==2.10.1" pip-audit --local --strict
+
+  package:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: install the locked toolchain
+        run: python -m pip install "uv==0.12.0"
+      - run: uv run --locked --extra dev --python 3.12 python -m build
+      - name: install the wheel and run it
+        # The benchmark data ships as package data. A wheel that cannot find it
+        # produces a CLI that starts and then has nothing to compare against, so the
+        # check has to run a command that reads the dataset and one that runs the
+        # whole comparison path.
+        run: |
+          python -m venv /tmp/venv
+          # --no-index, or pip is free to resolve the name from PyPI and test a
+          # release nobody built in this job.
+          /tmp/venv/bin/pip install --no-index --find-links dist ato-benchmark-compare
+          /tmp/venv/bin/ato-benchmark-compare show "Bakeries and hot bread shops" \
+            | grep -q "31% to 38%"
+          printf 'account,amount\nSales,1000000\nPurchases,320000\n' > /tmp/pnl.csv
+          printf 'account,bucket\nSales,turnover\nPurchases,cost_of_sales\n' > /tmp/map.csv
+          /tmp/venv/bin/ato-benchmark-compare compare \
+            --profit-and-loss /tmp/pnl.csv --mapping /tmp/map.csv \
+            --industry "Bakeries and hot bread shops" | grep -q "32.00%"
+      - name: the shipped tests must pass from the sdist
+        run: |
+          mkdir /tmp/sdist && tar -xzf dist/*.tar.gz -C /tmp/sdist --strip-components=1
+          cd /tmp/sdist && pip install -e ".[dev]" && pytest -q

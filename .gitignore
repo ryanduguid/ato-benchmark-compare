@@ -1,0 +1,53 @@
+# Client and taxpayer data never belongs in this repository.
+# Working files that could carry a real ledger are blocked by name and by folder.
+profit-and-loss*.csv
+p-and-l*.csv
+pnl*.csv
+mapping*.csv
+!tests/fixtures/**
+!examples/**
+client-data/
+clients/
+ledgers/
+exports/
+*.aba
+*.qbo
+*.ofx
+*.xlsx
+*.xls
+*.xlsm
+!tests/fixtures/*.xlsx
+
+# Credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+token.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Agent scratch
+.superpowers/
+.claude/settings.local.json
