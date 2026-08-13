@@ -1,0 +1,28 @@
+account,bucket,source,amount,note
+Sales - bread and rolls,turnover,reviewed,520000.00,sales wording
+Sales - cakes and pastries,turnover,reviewed,330000.00,sales wording
+Interest received,other_income,reviewed,1200.00,not sales of goods or services
+Total Income,excluded,reviewed,851200.00,"looks like a subtotal row, so it is left out"
+Flour and ingredients,cost_of_sales,reviewed,240000.00,"in the cost of sales section, no more specific rule matched"
+Packaging,cost_of_sales,reviewed,24000.00,"in the cost of sales section, no more specific rule matched"
+Freight inwards,cost_of_sales,reviewed,6000.00,"in the cost of sales section, no more specific rule matched"
+Bakery wages,cost_of_sales_labour,reviewed,95000.00,wages inside the cost of sales section
+Total Cost of Sales,excluded,reviewed,365000.00,"looks like a subtotal row, so it is left out"
+Gross Profit,excluded,reviewed,486200.00,"looks like a subtotal row, so it is left out"
+Accounting fees,other_expense,reviewed,4800.00,"in the expense section, no more specific rule matched"
+Advertising,other_expense,reviewed,3600.00,"in the expense section, no more specific rule matched"
+Bank fees,other_expense,reviewed,1900.00,"in the expense section, no more specific rule matched"
+Cleaning contractor,contractor_commission,reviewed,7800.00,contractor wording
+Depreciation,other_expense,reviewed,21000.00,"in the expense section, no more specific rule matched"
+Electricity,other_expense,reviewed,18000.00,"in the expense section, no more specific rule matched"
+Insurance,other_expense,reviewed,7400.00,"in the expense section, no more specific rule matched"
+Motor vehicle expenses,motor_vehicle,reviewed,9500.00,motor vehicle wording
+Rent,rent,reviewed,62000.00,rent wording
+Repairs and maintenance,other_expense,reviewed,6200.00,"in the expense section, no more specific rule matched"
+Shop wages,salary_wages,reviewed,175000.00,salary and wages wording
+Superannuation,other_expense,reviewed,24750.00,superannuation is its own ATO label
+Wages - director spouse,associated_persons,reviewed,45000.00,"named as an associate, related party or spouse"
+Total Operating Expenses,excluded,reviewed,386950.00,"looks like a subtotal row, so it is left out"
+Net Profit before tax,excluded,reviewed,99250.00,"looks like a subtotal row, so it is left out"
+Income tax expense,excluded,reviewed,12000.00,income tax is outside the ATO expense labels
+Net Profit,excluded,reviewed,87250.00,"looks like a subtotal row, so it is left out"
