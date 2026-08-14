@@ -16,6 +16,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
+from .atomic_io import atomic_text_writer
 from .csvsafe import guard
 
 REVIEW = "REVIEW"
@@ -124,7 +125,7 @@ def normalise_account(account: str) -> str:
 
 
 def write_mapping(path: Path, rows: list[MappingRow]) -> None:
-    with path.open("w", encoding="utf-8", newline="") as handle:
+    with atomic_text_writer(path, encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle)
         writer.writerow(FIELDNAMES)
         for row in rows:
