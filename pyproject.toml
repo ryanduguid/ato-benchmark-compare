@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ato-benchmark-compare"
-version = "0.1.0"
+version = "0.1.1"
 description = "Compare profit and loss figures against the ATO small business benchmarks"
 readme = "README.md"
 requires-python = ">=3.10"
