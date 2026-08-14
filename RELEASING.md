@@ -20,6 +20,8 @@ sha256sum --check SHA256SUMS
 gh attestation verify ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/ato-benchmark-compare
 gh attestation verify ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/ato-benchmark-compare --predicate-type https://spdx.dev/Document/v2.3
 gh release view v0.1.1 -R ryanduguid/ato-benchmark-compare --json isImmutable
+gh release verify v0.1.1 -R ryanduguid/ato-benchmark-compare
+gh release verify-asset v0.1.1 ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/ato-benchmark-compare
 ```
 
 If any gate fails, inspect it before touching the tag or draft. Never move a published tag.
