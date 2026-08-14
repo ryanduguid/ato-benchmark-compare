@@ -16,6 +16,7 @@ from decimal import Decimal
 from pathlib import Path
 
 from . import __version__, dataset as dataset_module, mapping as mapping_module, pnl as pnl_module
+from .atomic_io import atomic_write_text
 from .dataset import Dataset, DatasetError, RATIO_LABELS
 from .mapping import (
     BUCKETS,
@@ -237,7 +238,7 @@ def cmd_compare(args: argparse.Namespace) -> int:
         if args.json == "-":
             print(text, end="")
         else:
-            Path(args.json).write_text(text, encoding="utf-8", newline="\n")
+            atomic_write_text(Path(args.json), text, encoding="utf-8", newline="\n")
             print(f"Wrote {args.json}")
     if args.json != "-":
         print(render_text(comparison, unreviewed=unreviewed))
