@@ -117,6 +117,30 @@ def test_unknown_amount_column_is_an_error(tmp_path: Path) -> None:
         pnl.read(write(tmp_path, "p.csv", REPORT), amount_column="9")
 
 
+def test_flat_export_keeps_an_account_named_like_a_section(tmp_path: Path) -> None:
+    # A headerless export where "Cost of Goods Sold" is an ordinary single-line
+    # account with a real amount. It must stay mappable, not vanish as a subtotal.
+    text = "Sales,850000\nCost of Goods Sold,290000\nRent,60000\n"
+    result = pnl.read(write(tmp_path, "p.csv", text))
+    assert result.layout == "report"
+    cogs = next(row for row in result.rows if row.account == "Cost of Goods Sold")
+    assert cogs.is_total is False
+    assert cogs.amount == Decimal("290000")
+    assert [row.account for row in result.accounts] == ["Sales", "Cost of Goods Sold", "Rent"]
+
+
+def test_section_total_printed_on_the_heading_row_is_still_a_total(tmp_path: Path) -> None:
+    # Here the detail rows beneath each heading add up to the amount on the heading,
+    # so the heading amounts are section totals and must not double count.
+    text = "Income,850000\nSales,850000\nCost of Sales,290000\nPurchases,240000\nFreight inwards,50000\n"
+    result = pnl.read(write(tmp_path, "p.csv", text))
+    assert [row.account for row in result.totals] == ["Income", "Cost of Sales"]
+    assert [row.account for row in result.accounts] == ["Sales", "Purchases", "Freight inwards"]
+    sections = {row.account: row.section for row in result.rows}
+    assert sections["Sales"] == pnl.SECTION_INCOME
+    assert sections["Purchases"] == pnl.SECTION_COST_OF_SALES
+
+
 def test_report_layout_records_what_it_skipped(tmp_path: Path) -> None:
     result = pnl.read(write(tmp_path, "p.csv", REPORT))
     joined = " ".join(result.skipped)
