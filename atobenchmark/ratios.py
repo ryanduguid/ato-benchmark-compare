@@ -10,8 +10,12 @@ last updated 16 March 2026. The rules this module implements are:
 * Total expenses for the ratio is total expenses less payments to associated persons.
 * Cost of sales for the ratio excludes salary and wages.
 * Labour is total salary and wages plus contractor, subcontractor and commission
-  expenses, less payments to associated persons. Where the activity statement W1
-  amount is greater than the salary and wages figure, W1 is used instead.
+  expenses, less payments to associated persons. The ATO deducts associates from a
+  return-label figure that includes them; the mapping keeps payments to associates
+  in their own bucket, so the mapped salary and wages already exclude them and
+  nothing more is deducted. Where the activity statement W1 amount is greater than
+  the salary and wages figure, W1 is used instead. W1 includes wages to associates,
+  so it is compared and applied net of them.
 """
 
 from __future__ import annotations
@@ -92,17 +96,23 @@ def compute(totals: dict[str, Decimal], w1: Decimal | None = None) -> Figures:
     total_expenses_for_ratio = total_expenses_reported - associated
     cost_of_sales_for_ratio = amounts["cost_of_sales"]
 
+    # The ATO deducts payments to associated persons from a salary and wages figure
+    # that includes them. The mapped buckets keep associates out of salary_wages and
+    # cost_of_sales_labour, so the figure here already excludes them and deducting
+    # again would remove them twice. W1 does include wages to associates, so it is
+    # compared and applied net of the associates bucket.
     salary_and_wages = amounts["salary_wages"] + amounts["cost_of_sales_labour"]
     if w1 is not None:
         if w1 < 0:
             raise RatioError("the activity statement W1 amount cannot be negative")
-        if w1 > salary_and_wages:
+        if w1 - associated > salary_and_wages:
             warnings.append(
-                f"Activity statement W1 ({w1}) is greater than the mapped salary and wages "
-                f"({salary_and_wages}), so W1 is used in the labour ratio."
+                f"Activity statement W1 ({w1}) less payments to associates ({associated}) "
+                f"is greater than the mapped salary and wages ({salary_and_wages}), so it "
+                f"is used in the labour ratio."
             )
-            salary_and_wages = w1
-    labour = salary_and_wages + amounts["contractor_commission"] - associated
+            salary_and_wages = w1 - associated
+    labour = salary_and_wages + amounts["contractor_commission"]
 
     for bucket in sorted(EXPENSE_BUCKETS):
         if amounts[bucket] < 0:
@@ -112,8 +122,8 @@ def compute(totals: dict[str, Decimal], w1: Decimal | None = None) -> Figures:
             )
     if labour < 0:
         warnings.append(
-            "Labour is negative once payments to associated persons are deducted. "
-            "Check that associated person payments are not also mapped to salary_wages."
+            "Labour is negative. Check the sign convention of the wage and contractor "
+            "accounts, or use --flip-expense-signs."
         )
     if cost_of_sales_for_ratio > 0 and amounts["cost_of_sales_labour"] == 0:
         warnings.append(
