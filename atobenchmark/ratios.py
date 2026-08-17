@@ -10,12 +10,11 @@ last updated 16 March 2026. The rules this module implements are:
 * Total expenses for the ratio is total expenses less payments to associated persons.
 * Cost of sales for the ratio excludes salary and wages.
 * Labour is total salary and wages plus contractor, subcontractor and commission
-  expenses, less payments to associated persons. The ATO deducts associates from a
-  return-label figure that includes them; the mapping keeps payments to associates
-  in their own bucket, so the mapped salary and wages already exclude them and
-  nothing more is deducted. Where the activity statement W1 amount is greater than
-  the salary and wages figure, W1 is used instead. W1 includes wages to associates,
-  so it is compared and applied net of them.
+  expenses, less payments to associated persons. The return's salary and wages
+  label includes associates; the mapping keeps them in their own bucket, so the
+  label is reconstructed by adding the associates bucket back. Where the activity
+  statement W1 amount is greater than that label, W1 is used instead. Associates
+  are deducted exactly once, from whichever figure is used.
 """
 
 from __future__ import annotations
@@ -96,23 +95,24 @@ def compute(totals: dict[str, Decimal], w1: Decimal | None = None) -> Figures:
     total_expenses_for_ratio = total_expenses_reported - associated
     cost_of_sales_for_ratio = amounts["cost_of_sales"]
 
-    # The ATO deducts payments to associated persons from a salary and wages figure
-    # that includes them. The mapped buckets keep associates out of salary_wages and
-    # cost_of_sales_labour, so the figure here already excludes them and deducting
-    # again would remove them twice. W1 does include wages to associates, so it is
-    # compared and applied net of the associates bucket.
-    salary_and_wages = amounts["salary_wages"] + amounts["cost_of_sales_labour"]
+    # The ATO compares W1 against the return's salary and wages label, which
+    # includes payments to associated persons, then deducts associates from
+    # whichever figure is used. The mapped buckets keep associates in their own
+    # bucket, so the label is reconstructed by adding them back, and associates
+    # are deducted exactly once, at the end.
+    salary_wages_mapped = amounts["salary_wages"] + amounts["cost_of_sales_labour"]
+    salary_and_wages = salary_wages_mapped + associated
     if w1 is not None:
         if w1 < 0:
             raise RatioError("the activity statement W1 amount cannot be negative")
-        if w1 - associated > salary_and_wages:
+        if w1 > salary_and_wages:
             warnings.append(
-                f"Activity statement W1 ({w1}) less payments to associates ({associated}) "
-                f"is greater than the mapped salary and wages ({salary_and_wages}), so it "
-                f"is used in the labour ratio."
+                f"Activity statement W1 ({w1}) is greater than the salary and wages "
+                f"label ({salary_and_wages}, the mapped salary and wages plus payments "
+                f"to associates), so W1 is used in the labour ratio."
             )
-            salary_and_wages = w1 - associated
-    labour = salary_and_wages + amounts["contractor_commission"]
+            salary_and_wages = w1
+    labour = salary_and_wages - associated + amounts["contractor_commission"]
 
     for bucket in sorted(EXPENSE_BUCKETS):
         if amounts[bucket] < 0:
@@ -130,7 +130,7 @@ def compute(totals: dict[str, Decimal], w1: Decimal | None = None) -> Figures:
             "No salary and wages were mapped inside cost of sales. The ATO excludes wages "
             "from the cost of sales ratio, so confirm none are sitting in those accounts."
         )
-    if w1 is None and salary_and_wages > 0:
+    if w1 is None and salary_wages_mapped > 0:
         warnings.append(
             "No activity statement W1 amount was supplied. The ATO uses W1 for the labour "
             "ratio when it exceeds the salary and wages figure. Pass --w1 to apply that rule."
