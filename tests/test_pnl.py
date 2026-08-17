@@ -141,6 +141,48 @@ def test_section_total_printed_on_the_heading_row_is_still_a_total(tmp_path: Pat
     assert sections["Purchases"] == pnl.SECTION_COST_OF_SALES
 
 
+def test_unreadable_detail_cell_keeps_the_heading_a_section_total(tmp_path: Path) -> None:
+    # "Freight inwards" carries a placeholder rather than a number, so the sum under
+    # "Cost of Sales" cannot be verified. The heading must stay a section total: the
+    # rows beneath keep the cost of sales section instead of the section sticking at
+    # income and pulling every expense into turnover.
+    text = (
+        "Income,850000\n"
+        "Sales,850000\n"
+        "Cost of Sales,290000\n"
+        "Purchases,240000\n"
+        "Freight inwards,-\n"
+        "Freight inwards (2),50000\n"
+    )
+    result = pnl.read(write(tmp_path, "p.csv", text))
+    assert [row.account for row in result.totals] == ["Income", "Cost of Sales"]
+    assert [row.account for row in result.accounts] == ["Sales", "Purchases", "Freight inwards (2)"]
+    sections = {row.account: row.section for row in result.rows}
+    assert sections["Sales"] == pnl.SECTION_INCOME
+    assert sections["Purchases"] == pnl.SECTION_COST_OF_SALES
+    assert sections["Freight inwards (2)"] == pnl.SECTION_COST_OF_SALES
+    # The unreadable cell itself is reported, not silently dropped.
+    assert any("Freight inwards" in line and "line 5" in line for line in result.skipped)
+
+
+def test_section_named_account_among_unreadable_neighbours_stays_visible(tmp_path: Path) -> None:
+    # Here "Cost of Sales" may genuinely be a single account, but the unreadable cell
+    # beneath it means the corroborating sum cannot be checked. The conservative
+    # reading keeps it as a section total with its amount attached, so it surfaces in
+    # the mapping file as a suggested exclusion for a person to confirm or correct,
+    # rather than being classified either way on unverifiable evidence.
+    text = "Sales,850000\nCost of Sales,290000\nRent,-\nElectricity,60000\n"
+    result = pnl.read(write(tmp_path, "p.csv", text))
+    cos = next(row for row in result.rows if row.account == "Cost of Sales")
+    assert cos.is_total is True
+    assert cos.amount == Decimal("290000")
+    assert cos.section == pnl.SECTION_COST_OF_SALES
+    electricity = next(row for row in result.rows if row.account == "Electricity")
+    assert electricity.is_total is False
+    assert electricity.section == pnl.SECTION_COST_OF_SALES
+    assert any("Rent" in line for line in result.skipped)
+
+
 def test_report_layout_records_what_it_skipped(tmp_path: Path) -> None:
     result = pnl.read(write(tmp_path, "p.csv", REPORT))
     joined = " ".join(result.skipped)
