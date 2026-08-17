@@ -129,6 +129,21 @@ def test_flat_export_keeps_an_account_named_like_a_section(tmp_path: Path) -> No
     assert [row.account for row in result.accounts] == ["Sales", "Cost of Goods Sold", "Rent"]
 
 
+def test_a_retained_section_named_account_carries_its_own_section(tmp_path: Path) -> None:
+    # "Cost of Goods Sold" under an open Income section is retained as an account
+    # (the rows beneath do not sum to it), but it must carry the section its own
+    # label names, not inherit income - and the rows after it must keep the
+    # enclosing section rather than inherit cost of sales from one account row.
+    text = "Income,\nSales,850000\nCost of Goods Sold,290000\nRent,60000\n"
+    result = pnl.read(write(tmp_path, "p.csv", text))
+    sections = {row.account: row.section for row in result.rows}
+    assert sections["Cost of Goods Sold"] == pnl.SECTION_COST_OF_SALES
+    assert sections["Sales"] == pnl.SECTION_INCOME
+    assert sections["Rent"] == pnl.SECTION_INCOME
+    cogs = next(row for row in result.rows if row.account == "Cost of Goods Sold")
+    assert cogs.is_total is False
+
+
 def test_section_total_printed_on_the_heading_row_is_still_a_total(tmp_path: Path) -> None:
     # Here the detail rows beneath each heading add up to the amount on the heading,
     # so the heading amounts are section totals and must not double count.

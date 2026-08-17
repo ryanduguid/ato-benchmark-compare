@@ -273,6 +273,7 @@ def _read_report(path: Path, rows: list[list[str]], amount_column: str | None) -
         cell = row[index].strip() if len(row) > index else ""
 
         heading = section_for(label) if label else None
+        row_section = section
         if heading is not None:
             if not cell:
                 section = heading
@@ -308,7 +309,9 @@ def _read_report(path: Path, rows: list[list[str]], amount_column: str | None) -
             # Every detail cell beneath parses and the sum does not match, so this is
             # an ordinary account that happens to be named like a section heading, for
             # example a single "Cost of Goods Sold" line in a flat export. It falls
-            # through to be read as a normal account row.
+            # through to be read as a normal account row carrying the section its own
+            # label names, while the rows after it keep the enclosing section.
+            row_section = heading
 
         if label and not cell:
             skipped.append(f"line {number}: {label!r} has no amount in {column_name}")
@@ -328,7 +331,7 @@ def _read_report(path: Path, rows: list[list[str]], amount_column: str | None) -
                 account=label,
                 amount=amount,
                 line_number=number,
-                section=section,
+                section=row_section,
                 is_total=is_total_row(label),
             )
         )
