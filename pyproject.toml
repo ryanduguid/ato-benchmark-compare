@@ -9,7 +9,7 @@ description = "Compare profit and loss figures against the ATO small business be
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-license-files = ["LICENSE"]
+license-files = ["LICENSE", "NOTICE"]
 authors = [{ name = "Ryan Duguid" }]
 keywords = ["ato", "australia", "accounting", "benchmarks", "tax", "small business"]
 classifiers = [
@@ -49,6 +49,7 @@ include = [
   "/docs",
   "/README.md",
   "/LICENSE",
+  "/NOTICE",
   "/CONTRIBUTING.md",
   "/SECURITY.md",
 ]
