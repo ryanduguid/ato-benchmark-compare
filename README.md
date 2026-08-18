@@ -221,7 +221,8 @@ has been converted from the ATO's spreadsheet into JSON, and turnover band bound
 have been made adjoining as described above. No published ratio has been altered.
 The ATO has not endorsed this tool and has nothing to do with it.
 
-The code in this repository is MIT licensed.
+The code in this repository is MIT licensed. The data attribution is also
+recorded in [NOTICE](NOTICE), which ships inside the wheel and the sdist.
 
 ## Author
 
