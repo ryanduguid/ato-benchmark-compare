@@ -69,7 +69,9 @@ def test_cost_of_sales_ratio_excludes_wages_inside_cost_of_sales() -> None:
     assert figures.total_expenses_reported == Decimal("40000")
 
 
-def test_labour_adds_contractors_and_deducts_associates() -> None:
+def test_labour_adds_contractors_without_deducting_associates() -> None:
+    # The mapped wage buckets already exclude payments to associates, so deducting
+    # the associated_persons bucket here would remove them twice.
     figures = compute(
         totals(
             turnover="100000",
@@ -79,7 +81,7 @@ def test_labour_adds_contractors_and_deducts_associates() -> None:
             associated_persons="3000",
         )
     )
-    assert figures.labour == Decimal("40000")
+    assert figures.labour == Decimal("43000")
 
 
 def test_w1_replaces_salary_and_wages_when_greater() -> None:
@@ -94,6 +96,21 @@ def test_w1_replaces_salary_and_wages_when_greater() -> None:
 def test_w1_is_ignored_when_not_greater() -> None:
     figures = compute(totals(turnover="100000", salary_wages="30000"), w1=Decimal("29000"))
     assert figures.labour == Decimal("30000")
+
+
+def test_w1_is_compared_and_applied_net_of_associates() -> None:
+    # W1 includes wages paid to associates and the mapped salary and wages do not,
+    # so both the comparison and the substitution happen net of associate payments.
+    ignored = compute(
+        totals(turnover="100000", salary_wages="30000", associated_persons="4000"),
+        w1=Decimal("33000"),
+    )
+    assert ignored.labour == Decimal("30000")
+    applied = compute(
+        totals(turnover="100000", salary_wages="30000", associated_persons="4000"),
+        w1=Decimal("36000"),
+    )
+    assert applied.labour == Decimal("32000")
 
 
 def test_negative_w1_is_refused() -> None:
