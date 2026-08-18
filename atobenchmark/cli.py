@@ -17,7 +17,7 @@ from pathlib import Path
 
 from . import __version__, dataset as dataset_module, mapping as mapping_module, pnl as pnl_module
 from .atomic_io import atomic_write_text
-from .dataset import Dataset, DatasetError, RATIO_LABELS
+from .dataset import Dataset, DatasetError, RATIO_KEYS, RATIO_LABELS
 from .mapping import (
     BUCKETS,
     EXPENSE_BUCKETS,
@@ -82,7 +82,7 @@ def cmd_show(args: argparse.Namespace) -> int:
     print()
     for band in business_type.bands:
         print(f"  {band.label}")
-        for name in ("cost_of_sales_to_turnover", "total_expenses_to_turnover"):
+        for name in RATIO_KEYS:
             benchmark = band.ratios.get(name)
             shown = (
                 percent_range(benchmark.minimum, benchmark.maximum) if benchmark else "not published"

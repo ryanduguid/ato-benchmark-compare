@@ -154,6 +154,22 @@ def test_future_schema_version_is_refused() -> None:
     assert "schema version" in str(excinfo.value)
 
 
+def test_non_object_business_type_is_refused() -> None:
+    payload = json.loads((ds.DATA_DIR / "benchmarks-2023-24.json").read_text(encoding="utf-8"))
+    payload["business_types"] = ["oops"]
+    with pytest.raises(ds.DatasetError) as excinfo:
+        ds.loads(json.dumps(payload))
+    assert "not an object" in str(excinfo.value)
+
+
+def test_non_object_turnover_band_is_refused() -> None:
+    payload = json.loads((ds.DATA_DIR / "benchmarks-2023-24.json").read_text(encoding="utf-8"))
+    payload["business_types"][0]["turnover_bands"] = ["oops"]
+    with pytest.raises(ds.DatasetError) as excinfo:
+        ds.loads(json.dumps(payload))
+    assert "not an object" in str(excinfo.value)
+
+
 def test_reversed_range_is_refused() -> None:
     payload = json.loads((ds.DATA_DIR / "benchmarks-2023-24.json").read_text(encoding="utf-8"))
     payload["business_types"][0]["turnover_bands"][0]["total_expenses_to_turnover"] = {
