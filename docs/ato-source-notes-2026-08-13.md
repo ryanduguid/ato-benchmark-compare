@@ -49,7 +49,11 @@ and commissions expenses minus Payments to associated persons. If the amount rep
 at label W1 (total salary, wages and other payments) on the activity statement is
 greater than the total salary and wages expenses reported on the tax return, then we
 use the activity statement amount in the calculation." W1 cannot be seen in a profit
-and loss, so it is a `--w1` option and its absence is reported.
+and loss, so it is a `--w1` option and its absence is reported. The return-label
+salary and wages figure includes wages to associates and the ATO then deducts them;
+the mapping keeps associate payments in their own bucket, so the mapped salary and
+wages already exclude them and no further deduction is made. W1 does include them,
+so it is compared and applied net of payments to associates.
 
 **Rent and motor vehicle.** Company labels 6H and 6Y respectively.
 

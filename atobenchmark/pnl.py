@@ -225,6 +225,41 @@ def _amount_column_index(rows: list[list[str]], amount_column: str | None) -> tu
     return best, f"column {best}"
 
 
+def _heading_carries_section_total(later: list[list[str]], index: int, amount: Decimal) -> bool | None:
+    """Whether the amount on a section heading row is the total of the rows under it.
+
+    Some exports print the section total on the heading row itself. In that shape the
+    detail rows beneath the heading, up to the next heading or total row, add up to
+    the amount on the heading. When every detail cell parses and the sum does not
+    match, the heading is an ordinary account that happens to be named like a
+    section, and excluding it would silently drop a real amount.
+
+    Returns True when the detail rows add up to the amount, False when they all parse
+    and provably do not, and None when a detail cell is non blank but unreadable, for
+    example a "-" or "nil" placeholder, so the sum cannot be checked either way.
+    """
+    running = Decimal(0)
+    seen_detail = False
+    for row in later:
+        if not any(cell.strip() for cell in row):
+            continue
+        label = row[0].strip() if row else ""
+        cell = row[index].strip() if len(row) > index else ""
+        if label and (section_for(label) is not None or is_total_row(label)):
+            break
+        if not label or not cell:
+            continue
+        try:
+            running += parse_amount(cell)
+        except AmountError:
+            # A non blank cell that cannot be read means the sum can never be
+            # verified. That is inconclusive, not evidence that the heading is an
+            # ordinary account.
+            return None
+        seen_detail = True
+    return seen_detail and running == amount
+
+
 def _read_report(path: Path, rows: list[list[str]], amount_column: str | None) -> PnlFile:
     index, column_name = _amount_column_index(rows, amount_column)
     parsed: list[PnlRow] = []
@@ -238,29 +273,45 @@ def _read_report(path: Path, rows: list[list[str]], amount_column: str | None) -
         cell = row[index].strip() if len(row) > index else ""
 
         heading = section_for(label) if label else None
+        row_section = section
         if heading is not None:
-            # Some exports print the section total on the heading row itself. The
-            # heading still starts a section, and any amount on it is a total, so it
-            # is recorded as one rather than becoming an account that double counts
-            # everything beneath it.
-            section = heading
             if not cell:
+                section = heading
                 continue
             try:
                 amount = parse_amount(cell, f"{path} line {number}")
             except AmountError:
                 skipped.append(f"line {number}: {label!r} has no readable amount in {column_name}")
+                section = heading
                 continue
-            parsed.append(
-                PnlRow(
-                    account=label,
-                    amount=amount,
-                    line_number=number,
-                    section=section,
-                    is_total=True,
+            carries_total = _heading_carries_section_total(rows[number:], index, amount)
+            if carries_total is not False:
+                # True: this export prints the section total on the heading row
+                # itself, so the amount is recorded as a total rather than becoming an
+                # account that double counts everything beneath it. None: a detail
+                # cell beneath is unreadable, so the sum cannot be checked either way.
+                # The conservative reading is the same for both: keep the heading as a
+                # section total. It stays visible as a suggested exclusion in the
+                # mapping file, and the rows beneath keep the right section, whereas
+                # reading it as an account on unverifiable evidence would hold the
+                # previous section open and misfile every row under this heading.
+                section = heading
+                parsed.append(
+                    PnlRow(
+                        account=label,
+                        amount=amount,
+                        line_number=number,
+                        section=section,
+                        is_total=True,
+                    )
                 )
-            )
-            continue
+                continue
+            # Every detail cell beneath parses and the sum does not match, so this is
+            # an ordinary account that happens to be named like a section heading, for
+            # example a single "Cost of Goods Sold" line in a flat export. It falls
+            # through to be read as a normal account row carrying the section its own
+            # label names, while the rows after it keep the enclosing section.
+            row_section = heading
 
         if label and not cell:
             skipped.append(f"line {number}: {label!r} has no amount in {column_name}")
@@ -280,7 +331,7 @@ def _read_report(path: Path, rows: list[list[str]], amount_column: str | None) -
                 account=label,
                 amount=amount,
                 line_number=number,
-                section=section,
+                section=row_section,
                 is_total=is_total_row(label),
             )
         )
