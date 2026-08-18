@@ -187,6 +187,8 @@ def loads(text: str, source_name: str = "<string>") -> Dataset:
 
     business_types = []
     for entry in entries:
+        if not isinstance(entry, dict):
+            raise DatasetError(f"{source_name}: a business type is not an object")
         name = entry.get("name")
         if not isinstance(name, str) or not name.strip():
             raise DatasetError(f"{source_name}: a business type has no name")
@@ -195,6 +197,8 @@ def loads(text: str, source_name: str = "<string>") -> Dataset:
             raise DatasetError(f"{source_name}: {name}: unknown key_ratio {key_ratio!r}")
         bands = []
         for band_raw in entry.get("turnover_bands", []):
+            if not isinstance(band_raw, dict):
+                raise DatasetError(f"{source_name}: {name}: a turnover band is not an object")
             where = f"{source_name}: {name}/{band_raw.get('band')}"
             turnover_to = band_raw.get("turnover_to")
             bands.append(
