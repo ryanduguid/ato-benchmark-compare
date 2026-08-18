@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from atobenchmark.cli import EXIT_ERROR, EXIT_OK, EXIT_OUTSIDE, EXIT_UNREVIEWED, main
+from atobenchmark.mapping import read_mapping
 
 EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
 BAKERY_PNL = EXAMPLES / "bakery-pnl.csv"
@@ -139,6 +140,32 @@ def test_accept_unreviewed_clears_the_review_exit(tmp_path: Path, capsys: pytest
         ]
     )
     assert code == EXIT_OK
+
+
+def test_map_does_not_silently_bucket_cost_of_sales_as_turnover(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # A placeholder amount under "Cost of Sales" makes the section-total check
+    # inconclusive. The heading must still advance the section: its amount appears in
+    # the mapping file as a suggested exclusion, the rows beneath it are suggested as
+    # cost of sales rather than turnover, and the unreadable row is reported.
+    pnl = tmp_path / "p.csv"
+    pnl.write_text(
+        "Income,850000\nSales,850000\nCost of Sales,290000\n"
+        "Purchases,240000\nFreight inwards,-\nFreight inwards (2),50000\n",
+        encoding="utf-8",
+    )
+    out = tmp_path / "m.csv"
+    assert main(["map", "--profit-and-loss", str(pnl), "--out", str(out)]) == EXIT_OK
+    printed = capsys.readouterr().out
+    assert "line 5: 'Freight inwards' has no readable amount" in printed
+    buckets = {row.account: row.bucket for row in read_mapping(out).values()}
+    assert buckets["Cost of Sales"] == "excluded"
+    assert buckets["Purchases"] == "cost_of_sales"
+    assert buckets["Freight inwards (2)"] == "cost_of_sales"
+    assert "turnover" not in {buckets["Purchases"], buckets["Freight inwards (2)"]}
+    # The excluded heading keeps its amount visible for the reviewer.
+    assert "290000" in out.read_text(encoding="utf-8")
 
 
 def test_map_will_not_overwrite_a_reviewed_mapping(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:

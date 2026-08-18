@@ -90,7 +90,7 @@ Ratio                                   This business  ATO range         Result
 ---------------------------------------------------------------------------------
 Cost of sales to turnover (key)         31.76%         29% to 36%        within
 Total expenses to turnover              83.17%         82% to 90%        within
-Labour to turnover                      27.39%         -                 no benchmark in this dataset
+Labour to turnover                      32.68%         -                 no benchmark in this dataset
 Rent to turnover                        7.29%          -                 no benchmark in this dataset
 Motor vehicle expenses to turnover      1.12%          -                 no benchmark in this dataset
 
@@ -102,7 +102,7 @@ Figures used
   Less payments to associates   $45,000.00
   Total expenses for the ratio  $706,950.00
   Cost of sales excluding wages $270,000.00
-  Labour                        $232,800.00
+  Labour                        $277,800.00
 ```
 
 Add `--json result.json` for the same result as structured data, including every
@@ -149,7 +149,7 @@ and use `--amount-column` if it picked the wrong period.
 | `cost_of_sales_labour` | Wages inside cost of sales. Kept out of the cost of sales ratio, kept in total expenses and labour. |
 | `salary_wages` | Salary and wages outside cost of sales. |
 | `contractor_commission` | Contractor, subcontractor and commission expenses. |
-| `associated_persons` | Payments to associated persons. Deducted from total expenses and from labour. |
+| `associated_persons` | Payments to associated persons. Deducted from total expenses. The wage buckets already exclude these, so labour deducts nothing further. |
 | `rent` | Rent expenses. |
 | `motor_vehicle` | Motor vehicle expenses. |
 | `other_expense` | Every other expense, including superannuation and depreciation. |
@@ -221,7 +221,8 @@ has been converted from the ATO's spreadsheet into JSON, and turnover band bound
 have been made adjoining as described above. No published ratio has been altered.
 The ATO has not endorsed this tool and has nothing to do with it.
 
-The code in this repository is MIT licensed.
+The code in this repository is MIT licensed. The data attribution is also
+recorded in [NOTICE](NOTICE), which ships inside the wheel and the sdist.
 
 ## Author
 
