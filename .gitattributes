@@ -1,1 +1,3 @@
-* text=auto eol=lf
+# Benchmark tables derived from published ATO data. linguist-generated
+# keeps the language bar showing the Python tool, not the data it ships.
+atobenchmark/data/*.json linguist-generated
