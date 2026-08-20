@@ -1,16 +1,32 @@
 from __future__ import annotations
 
+import csv
+import hashlib
 import json
+from decimal import Decimal
 from pathlib import Path
 
 import pytest
 
-from atobenchmark.cli import EXIT_ERROR, EXIT_OK, EXIT_OUTSIDE, EXIT_UNREVIEWED, main
-from atobenchmark.mapping import read_mapping
+from atobenchmark import mapping as mapping_module
+from atobenchmark.cli import (
+    EXIT_ERROR,
+    EXIT_OK,
+    EXIT_OUTSIDE,
+    EXIT_UNREVIEWED,
+    _bucket_totals,
+    main,
+)
+from atobenchmark.mapping import MappingError, MappingRow, read_mapping
+from atobenchmark.pnl import PnlFile, PnlRow
 
 EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
 BAKERY_PNL = EXAMPLES / "bakery-pnl.csv"
 BAKERY_MAPPING = EXAMPLES / "bakery-mapping.csv"
+
+
+def _digest(normalised_account: str) -> str:
+    return hashlib.sha256(normalised_account.encode("utf-8")).hexdigest()
 
 
 def test_industries_lists_every_business_type(capsys: pytest.CaptureFixture[str]) -> None:
@@ -299,3 +315,89 @@ def test_previous_benchmark_year_can_be_selected(capsys: pytest.CaptureFixture[s
     )
     assert code in {EXIT_OK, EXIT_OUTSIDE}
     assert "Benchmark year: 2022-23" in capsys.readouterr().out
+
+
+def test_map_then_compare_keeps_guarded_and_apostrophe_accounts_distinct(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    pnl = tmp_path / "source.csv"
+    pnl.write_text(
+        "account,amount\n=cmd|calc,1000000\n'=cmd|calc,320000\n", encoding="utf-8"
+    )
+    mapped = tmp_path / "mapped.csv"
+    assert main(["map", "--profit-and-loss", str(pnl), "--out", str(mapped)]) == EXIT_OK
+    capsys.readouterr()
+
+    with mapped.open("r", encoding="utf-8", newline="") as handle:
+        rows = list(csv.reader(handle))
+    header = rows[0]
+    account_key_at = header.index("account_key")
+    bucket_at = header.index("bucket")
+    source_at = header.index("source")
+    expected_buckets = {
+        _digest("=cmd|calc"): "turnover",
+        _digest("'=cmd|calc"): "cost_of_sales",
+    }
+    for row in rows[1:]:
+        row[bucket_at] = expected_buckets[row[account_key_at]]
+        row[source_at] = "reviewed"
+    with mapped.open("w", encoding="utf-8", newline="") as handle:
+        csv.writer(handle).writerows(rows)
+
+    code = main(
+        [
+            "compare",
+            "--profit-and-loss",
+            str(pnl),
+            "--mapping",
+            str(mapped),
+            "--industry",
+            "bakeries",
+            "--json",
+            "-",
+        ]
+    )
+    assert code == EXIT_OK
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["bucket_totals"]["turnover"] == "1000000"
+    assert payload["bucket_totals"]["cost_of_sales"] == "320000"
+    assert payload["figures"]["cost_of_sales_for_ratio"] == "320000"
+
+
+def test_map_fails_when_distinct_accounts_share_a_forced_digest(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    pnl = tmp_path / "source.csv"
+    pnl.write_text("account,amount\nSales,100\nRent,10\n", encoding="utf-8")
+    monkeypatch.setattr(mapping_module, "account_key", lambda _account: "a" * 64, raising=False)
+    code = main(["map", "--profit-and-loss", str(pnl), "--out", str(tmp_path / "m.csv")])
+    assert code == EXIT_ERROR
+    assert "collision" in capsys.readouterr().err.casefold()
+
+
+def test_map_still_collapses_normalisation_equivalent_accounts(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    pnl = tmp_path / "source.csv"
+    pnl.write_text(
+        "account,amount\nSales Account,100\nSALES   ACCOUNT,200\n", encoding="utf-8"
+    )
+    mapped = tmp_path / "m.csv"
+    assert main(["map", "--profit-and-loss", str(pnl), "--out", str(mapped)]) == EXIT_OK
+    assert "collapsed to one row" in capsys.readouterr().out
+    assert len(read_mapping(mapped)) == 1
+
+
+def test_comparison_rejects_a_forced_digest_collision_before_routing_amounts(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(mapping_module, "account_key", lambda _account: "a" * 64, raising=False)
+    source = PnlFile(
+        rows=(PnlRow("Rent", Decimal("10"), line_number=2),),
+        layout="neutral",
+        amount_column="amount",
+        skipped=(),
+    )
+    rows = {"a" * 64: MappingRow("Sales", "turnover", "reviewed")}
+    with pytest.raises(MappingError, match="collision"):
+        _bucket_totals(source, rows, flip=False)
