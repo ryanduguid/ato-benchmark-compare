@@ -11,7 +11,7 @@ report says so until a person changes it.
 from __future__ import annotations
 
 import csv
-import io
+import hashlib
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -50,7 +50,9 @@ EXPENSE_BUCKETS = frozenset(
     }
 )
 
-FIELDNAMES = ("account", "bucket", "source", "amount", "note")
+FIELDNAMES = ("account", "account_key", "bucket", "source", "amount", "note")
+
+_ACCOUNT_KEY_RE = re.compile(r"[0-9a-f]{64}")
 
 SOURCE_SUGGESTED = "suggested"
 SOURCE_REVIEWED = "reviewed"
@@ -120,63 +122,183 @@ def suggest(account: str, section: str | None = None) -> tuple[str, str]:
 
 
 def normalise_account(account: str) -> str:
-    """Key used to join a mapping row to a profit and loss row."""
+    """Established logical identity for an account name."""
     return re.sub(r"\s+", " ", account).strip().casefold()
 
 
+def account_key(account: str) -> str:
+    """Stable digest of the established logical account identity."""
+    identity = normalise_account(account)
+    return hashlib.sha256(identity.encode("utf-8")).hexdigest()
+
+
+def _duplicate_or_collision(
+    path: Path, number: int | None, account: str, previous: str
+) -> MappingError:
+    location = f"{path} line {number}" if number is not None else str(path)
+    if normalise_account(previous) == normalise_account(account):
+        return MappingError(f"{location}: {account!r} appears more than once")
+    return MappingError(
+        f"{location}: account identity hash collision between {previous!r} and {account!r}; "
+        "no mapping was applied"
+    )
+
+
+def _resolve_keyed_account(path: Path, number: int, displayed: str, supplied_key: str) -> str:
+    if _ACCOUNT_KEY_RE.fullmatch(supplied_key) is None:
+        raise MappingError(
+            f"{path} line {number}: account_key must be exactly 64 lower-case hexadecimal "
+            "characters. Regenerate the mapping and reapply the reviewed bucket, source "
+            "and note values."
+        )
+
+    candidates: list[str] = []
+    if guard(displayed) == displayed:
+        candidates.append(displayed)
+    if displayed.startswith("'"):
+        unguarded = displayed[1:]
+        if guard(unguarded) == displayed:
+            candidates.append(unguarded)
+
+    matches = [
+        candidate
+        for candidate in candidates
+        if normalise_account(candidate) and account_key(candidate) == supplied_key
+    ]
+    if not matches:
+        raise MappingError(
+            f"{path} line {number}: account display and account_key do not identify the "
+            "same safely guarded account. Regenerate the mapping and reapply the reviewed "
+            "bucket, source and note values."
+        )
+    if len(matches) > 1:
+        raise MappingError(
+            f"{path} line {number}: account display and account_key are ambiguous, which "
+            "may indicate an account identity hash collision. Regenerate the mapping and "
+            "reapply the reviewed bucket, source and note values."
+        )
+    return matches[0]
+
+
+def _resolve_legacy_account(path: Path, number: int, displayed: str) -> str:
+    guarded_candidate = (
+        displayed.startswith("'") and guard(displayed[1:]) == displayed
+    )
+    if guard(displayed) != displayed or guarded_candidate:
+        raise MappingError(
+            f"{path} line {number}: legacy account {displayed!r} is formula-like or could "
+            "be a spreadsheet guard. Regenerate the mapping and reapply the reviewed "
+            "bucket, source and note values."
+        )
+    return displayed
+
+
 def write_mapping(path: Path, rows: list[MappingRow]) -> None:
+    prepared: list[tuple[MappingRow, str]] = []
+    seen: dict[str, str] = {}
+    for row in rows:
+        key = account_key(row.account)
+        previous = seen.get(key)
+        if previous is not None:
+            raise _duplicate_or_collision(path, None, row.account, previous)
+        seen[key] = row.account
+        prepared.append((row, key))
+
     with atomic_text_writer(path, encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle)
         writer.writerow(FIELDNAMES)
-        for row in rows:
+        for row, key in prepared:
             writer.writerow(
-                [guard(row.account), guard(row.bucket), guard(row.source), guard(row.amount), guard(row.note)]
+                [
+                    guard(row.account),
+                    key,
+                    guard(row.bucket),
+                    guard(row.source),
+                    guard(row.amount),
+                    guard(row.note),
+                ]
             )
 
 
 def read_mapping(path: Path) -> dict[str, MappingRow]:
-    """Read a mapping file into a dict keyed by normalised account name."""
+    """Read a mapping file into a dict keyed by stable account digest."""
     if not path.is_file():
         raise MappingError(f"mapping file not found: {path}")
-    text = path.read_text(encoding="utf-8-sig")
-    # io.StringIO rather than splitlines(), so a quoted newline inside an account
-    # name does not split the row. restval keeps a truncated row visible.
-    reader = csv.DictReader(io.StringIO(text), restval="")
-    if reader.fieldnames is None:
-        raise MappingError(f"{path}: file is empty")
-    missing = {"account", "bucket"} - {(name or "").strip().casefold() for name in reader.fieldnames}
-    if missing:
-        raise MappingError(
-            f"{path}: missing required column(s): {', '.join(sorted(missing))}. "
-            f"Found: {', '.join(name for name in reader.fieldnames if name)}"
-        )
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.reader(handle)
+        try:
+            header = next(reader)
+        except StopIteration:
+            raise MappingError(f"{path}: file is empty") from None
 
-    rows: dict[str, MappingRow] = {}
-    for number, raw in enumerate(reader, start=2):
-        record = {(key or "").strip().casefold(): (value or "") for key, value in raw.items() if key}
-        account = record.get("account", "").strip()
-        if not account:
-            continue
-        bucket = record.get("bucket", "").strip()
-        if not bucket:
-            raise MappingError(f"{path} line {number}: {account!r} has no bucket")
-        if bucket == REVIEW:
+        names = [(name or "").strip().casefold() for name in header]
+        duplicates = sorted({name for name in names if name and names.count(name) > 1})
+        if duplicates:
             raise MappingError(
-                f"{path} line {number}: {account!r} is still marked {REVIEW}. "
-                f"Choose one of: {', '.join(sorted(BUCKETS))}"
+                f"{path}: duplicate column name(s): {', '.join(duplicates)}"
             )
-        if bucket not in BUCKETS:
+        missing = {"account", "bucket"} - set(names)
+        if missing:
             raise MappingError(
-                f"{path} line {number}: {account!r} has unknown bucket {bucket!r}. "
-                f"Choose one of: {', '.join(sorted(BUCKETS))}"
+                f"{path}: missing required column(s): {', '.join(sorted(missing))}. "
+                f"Found: {', '.join(name for name in header if name)}"
             )
-        source = record.get("source", "").strip() or SOURCE_REVIEWED
-        key = normalise_account(account)
-        if key in rows:
-            raise MappingError(f"{path} line {number}: {account!r} appears more than once")
-        rows[key] = MappingRow(
-            account=account, bucket=bucket, source=source, note=record.get("note", "").strip()
-        )
+        keyed = "account_key" in names
+        width = len(header)
+
+        rows: dict[str, MappingRow] = {}
+        for number, raw in enumerate(reader, start=2):
+            if not any(cell.strip() for cell in raw):
+                continue
+            if len(raw) < width:
+                raise MappingError(
+                    f"{path} line {number}: truncated row has {len(raw)} column(s); "
+                    f"the header has {width}"
+                )
+            if len(raw) > width:
+                if any(cell != "" for cell in raw[width:]):
+                    raise MappingError(
+                        f"{path} line {number}: populated extra column(s) do not match "
+                        "the mapping header"
+                    )
+                raw = raw[:width]
+            record = {name: value for name, value in zip(names, raw) if name}
+            displayed = record.get("account", "")
+            if not normalise_account(displayed):
+                continue
+
+            if keyed:
+                supplied_key = record.get("account_key", "")
+                account = _resolve_keyed_account(path, number, displayed, supplied_key)
+                key = supplied_key
+            else:
+                account = _resolve_legacy_account(path, number, displayed)
+                key = account_key(account)
+
+            bucket = record.get("bucket", "").strip()
+            if not bucket:
+                raise MappingError(f"{path} line {number}: {account!r} has no bucket")
+            if bucket == REVIEW:
+                raise MappingError(
+                    f"{path} line {number}: {account!r} is still marked {REVIEW}. "
+                    f"Choose one of: {', '.join(sorted(BUCKETS))}"
+                )
+            if bucket not in BUCKETS:
+                raise MappingError(
+                    f"{path} line {number}: {account!r} has unknown bucket {bucket!r}. "
+                    f"Choose one of: {', '.join(sorted(BUCKETS))}"
+                )
+            source = record.get("source", "").strip() or SOURCE_REVIEWED
+            previous = rows.get(key)
+            if previous is not None:
+                raise _duplicate_or_collision(path, number, account, previous.account)
+            rows[key] = MappingRow(
+                account=account,
+                bucket=bucket,
+                source=source,
+                note=record.get("note", "").strip(),
+                amount=record.get("amount", "").strip(),
+            )
     if not rows:
         raise MappingError(f"{path}: no mapping rows found")
     return rows

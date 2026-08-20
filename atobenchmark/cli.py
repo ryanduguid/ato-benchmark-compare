@@ -113,14 +113,20 @@ def cmd_map(args: argparse.Namespace) -> int:
 
     source = pnl_module.read(Path(args.profit_and_loss), args.amount_column)
     rows: list[MappingRow] = []
-    seen: set[str] = set()
+    seen: dict[str, str] = {}
     duplicates: list[str] = []
     for row in source.rows:
-        key = normalise_account(row.account)
+        identity = normalise_account(row.account)
+        key = mapping_module.account_key(row.account)
         if key in seen:
+            if seen[key] != identity:
+                raise MappingError(
+                    f"account identity hash collision between {seen[key]!r} and "
+                    f"{identity!r}; no mapping was written"
+                )
             duplicates.append(row.account)
             continue
-        seen.add(key)
+        seen[key] = identity
         if row.is_total:
             bucket, note = "excluded", "looks like a subtotal row, so it is left out"
         else:
@@ -169,11 +175,17 @@ def _bucket_totals(
     counted: set[str] = set()
 
     for row in source.rows:
-        key = normalise_account(row.account)
+        identity = normalise_account(row.account)
+        key = mapping_module.account_key(row.account)
         entry = mapping.get(key)
         if entry is None:
             missing.append(f"line {row.line_number}: {row.account}")
             continue
+        if normalise_account(entry.account) != identity:
+            raise MappingError(
+                f"line {row.line_number}: account identity hash collision between "
+                f"{entry.account!r} and {row.account!r}; no amount was routed"
+            )
         if key in counted:
             # One mapping row cannot answer for two ledger rows with the same name, and
             # guessing which bucket the second one belongs to is exactly the silent
