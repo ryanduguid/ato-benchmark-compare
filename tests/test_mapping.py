@@ -299,6 +299,44 @@ def test_keyed_file_does_not_fall_back_to_legacy_for_a_blank_row_key(tmp_path: P
         mapping.read_mapping(path)
 
 
+@pytest.mark.parametrize("keyed", [True, False], ids=["keyed", "legacy"])
+@pytest.mark.parametrize("account", ["", " \t\r\n "], ids=["empty", "normalises-empty"])
+def test_populated_mapping_row_with_empty_logical_account_is_rejected(
+    tmp_path: Path, keyed: bool, account: str
+) -> None:
+    path = tmp_path / "m.csv"
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle)
+        if keyed:
+            writer.writerow(("account", "account_key", "bucket", "source"))
+            writer.writerow(("Sales", _digest("sales"), "turnover", "reviewed"))
+            writer.writerow((account, _digest("rent"), "rent", "reviewed"))
+        else:
+            writer.writerow(("account", "bucket", "source"))
+            writer.writerow(("Sales", "turnover", "reviewed"))
+            writer.writerow((account, "rent", "reviewed"))
+
+    with pytest.raises(MappingError, match="account.*empty|missing.*account"):
+        mapping.read_mapping(path)
+
+
+@pytest.mark.parametrize("account", ["", " \t\r\n "], ids=["empty", "normalises-empty"])
+def test_write_rejects_empty_logical_account_before_replacing_existing_file(
+    tmp_path: Path, account: str
+) -> None:
+    path = tmp_path / "m.csv"
+    original = b"existing reviewed mapping\r\n"
+    path.write_bytes(original)
+
+    with pytest.raises(MappingError, match="account.*empty"):
+        mapping.write_mapping(
+            path,
+            [MappingRow(account=account, bucket="rent", source="reviewed")],
+        )
+
+    assert path.read_bytes() == original
+
+
 def test_case_and_spacing_only_keyed_display_edit_is_accepted(tmp_path: Path) -> None:
     path = tmp_path / "m.csv"
     _write_keyed_rows(
@@ -351,6 +389,44 @@ def test_malformed_keyed_csv_shape_is_rejected(tmp_path: Path, text: str) -> Non
     path.write_text(text, encoding="utf-8")
     with pytest.raises(MappingError, match="duplicate|column|truncated|extra"):
         mapping.read_mapping(path)
+
+
+@pytest.mark.parametrize("blank_header", ["", "   "], ids=["empty", "whitespace"])
+def test_populated_unnamed_mapping_column_is_rejected(
+    tmp_path: Path, blank_header: str
+) -> None:
+    path = tmp_path / "m.csv"
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(("account", blank_header, "account_key", "bucket"))
+        writer.writerow(("Sales", "hidden", _digest("sales"), "turnover"))
+
+    with pytest.raises(MappingError, match="unnamed column"):
+        mapping.read_mapping(path)
+
+
+def test_named_mapping_extension_column_remains_accepted(tmp_path: Path) -> None:
+    path = tmp_path / "m.csv"
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(("account", "account_key", "bucket", "review_status"))
+        writer.writerow(("Sales", _digest("sales"), "turnover", "approved"))
+
+    rows = mapping.read_mapping(path)
+
+    assert rows[_digest("sales")].bucket == "turnover"
+
+
+def test_extra_empty_trailing_mapping_cells_remain_accepted(tmp_path: Path) -> None:
+    path = tmp_path / "m.csv"
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(("account", "account_key", "bucket"))
+        writer.writerow(("Sales", _digest("sales"), "turnover", "", ""))
+
+    rows = mapping.read_mapping(path)
+
+    assert rows[_digest("sales")].bucket == "turnover"
 
 
 @pytest.mark.parametrize(

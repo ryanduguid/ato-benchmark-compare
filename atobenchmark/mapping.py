@@ -197,6 +197,10 @@ def write_mapping(path: Path, rows: list[MappingRow]) -> None:
     prepared: list[tuple[MappingRow, str]] = []
     seen: dict[str, str] = {}
     for row in rows:
+        if not normalise_account(row.account):
+            raise MappingError(
+                f"{path}: mapping account cannot be empty after normalisation"
+            )
         key = account_key(row.account)
         previous = seen.get(key)
         if previous is not None:
@@ -232,6 +236,11 @@ def read_mapping(path: Path) -> dict[str, MappingRow]:
             raise MappingError(f"{path}: file is empty") from None
 
         names = [(name or "").strip().casefold() for name in header]
+        unnamed = [str(index) for index, name in enumerate(names, start=1) if not name]
+        if unnamed:
+            raise MappingError(
+                f"{path}: unnamed column(s) at position(s): {', '.join(unnamed)}"
+            )
         duplicates = sorted({name for name in names if name and names.count(name) > 1})
         if duplicates:
             raise MappingError(
@@ -265,7 +274,9 @@ def read_mapping(path: Path) -> dict[str, MappingRow]:
             record = {name: value for name, value in zip(names, raw) if name}
             displayed = record.get("account", "")
             if not normalise_account(displayed):
-                continue
+                raise MappingError(
+                    f"{path} line {number}: mapping account is empty after normalisation"
+                )
 
             if keyed:
                 supplied_key = record.get("account_key", "")
