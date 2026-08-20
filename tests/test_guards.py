@@ -145,7 +145,7 @@ def test_no_runtime_module_imports_anything_outside_the_standard_library() -> No
 
     package = Path(atobenchmark.__file__).parent
     allowed = {
-        "__future__", "argparse", "collections", "contextlib", "csv", "io", "json",
+        "__future__", "argparse", "collections", "contextlib", "csv", "hashlib", "io", "json",
         "os", "re", "sys", "tempfile", "typing", "unicodedata", "dataclasses",
         "decimal", "pathlib",
     }

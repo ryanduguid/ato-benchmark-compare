@@ -69,6 +69,21 @@ to `reviewed`. `ato-benchmark-compare buckets` explains each bucket. This is the
 that decides whether the answer is worth anything: no account name tells you whether
 wages went to an associate.
 
+The generated mapping includes an `account_key` immediately after `account`. It is a
+SHA-256 digest of the tool's existing case-and-whitespace-insensitive account identity.
+Leave both columns unchanged while reviewing `bucket`, `source` and `note`; `amount` is
+shown for context and is not bound by the key. On the next run, the key lets the tool
+recover a formula-guarded logical account without confusing `=cmd|calc` with the genuine
+account `'=cmd|calc` when both look the same in a spreadsheet.
+
+`account_key` is an identity integrity check, not authentication or tamper resistance.
+Anyone who can edit the file can recompute it, and case- or whitespace-only account edits
+remain valid by design. Older mappings without the column remain readable for ordinary,
+unambiguous account names. A legacy formula-like name or one that could already contain a
+spreadsheet guard must be regenerated; reapply the reviewed bucket, source and note values
+to the new mapping. Profit and loss input parsing strips and normalises leading whitespace,
+so leading tab, carriage-return and newline prefixes are not distinct raw-ledger identities.
+
 **3. Compare.**
 
 ```bash
