@@ -9,7 +9,7 @@ Before tagging:
 3. From an operator session authenticated with repository Administration read access, run:
 
     ```bash
-    gh api -H "X-GitHub-Api-Version: 2026-03-10" repos/ryanduguid/ato-benchmark-compare/immutable-releases --jq .enabled
+    gh api -H "X-GitHub-Api-Version: 2026-03-10" repos/ryanduguid/RaymondChambers/immutable-releases --jq .enabled
     ```
 
     Do not push the tag unless the output is exactly `true`. The Actions `GITHUB_TOKEN` cannot be granted repository Administration read access, so the tag workflow cannot perform this preflight itself.
@@ -21,14 +21,14 @@ The workflow runs the locked tests, builds the wheel and source distribution onc
 Verify the downloaded release with:
 
 ```bash
-gh release download v0.1.1 -R ryanduguid/ato-benchmark-compare --dir release-v0.1.1
+gh release download v0.1.1 -R ryanduguid/RaymondChambers --dir release-v0.1.1
 cd release-v0.1.1
 sha256sum --check SHA256SUMS
-gh attestation verify ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/ato-benchmark-compare
-gh attestation verify ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/ato-benchmark-compare --predicate-type https://spdx.dev/Document/v2.3
-gh release view v0.1.1 -R ryanduguid/ato-benchmark-compare --json isImmutable
-gh release verify v0.1.1 -R ryanduguid/ato-benchmark-compare
-gh release verify-asset v0.1.1 ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/ato-benchmark-compare
+gh attestation verify ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/RaymondChambers
+gh attestation verify ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/RaymondChambers --predicate-type https://spdx.dev/Document/v2.3
+gh release view v0.1.1 -R ryanduguid/RaymondChambers --json isImmutable
+gh release verify v0.1.1 -R ryanduguid/RaymondChambers
+gh release verify-asset v0.1.1 ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/RaymondChambers
 ```
 
 If any gate fails, inspect it before touching the tag or draft. Never move a published tag.

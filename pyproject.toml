@@ -28,8 +28,8 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/ryanduguid/ato-benchmark-compare"
-Issues = "https://github.com/ryanduguid/ato-benchmark-compare/issues"
+Homepage = "https://github.com/ryanduguid/RaymondChambers"
+Issues = "https://github.com/ryanduguid/RaymondChambers/issues"
 
 [project.scripts]
 ato-benchmark-compare = "atobenchmark.cli:main"
