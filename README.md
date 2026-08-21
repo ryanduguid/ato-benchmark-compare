@@ -1,6 +1,6 @@
-# ato-benchmark-compare
+# Raymond Chambers
 
-[![tests](https://github.com/ryanduguid/ato-benchmark-compare/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanduguid/ato-benchmark-compare/actions/workflows/ci.yml)
+[![tests](https://github.com/ryanduguid/RaymondChambers/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanduguid/RaymondChambers/actions/workflows/ci.yml)
 [![licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 [![python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 
@@ -16,6 +16,20 @@ answer can be checked by someone else later.
 
 Australian tax rules only. Every figure comes from the ATO's own published dataset,
 and the comparison is a comparison, not advice.
+
+## Name
+
+The repository is named for [Raymond John Chambers
+(1917-1999)](https://adb.anu.edu.au/biography/chambers-raymond-john-34339),
+the Newcastle-born Australian accounting thinker whose work centred on accounting
+measurement and decision-useful financial reporting. The name is a tribute only.
+This independent project is not associated with or endorsed by Chambers' estate, the
+University of Sydney, the [Australian Accounting Hall of
+Fame](https://fbe.unimelb.edu.au/accounting/caip/aahof/ceremonies/ray_chambers) or
+the Australian Taxation Office.
+
+The published Python distribution and command remain `ato-benchmark-compare`, and the
+import package remains `atobenchmark`.
 
 ## What it gets right
 
@@ -43,8 +57,8 @@ ratios](https://www.ato.gov.au/businesses-and-organisations/income-deductions-an
 ## Install
 
 ```bash
-git clone https://github.com/ryanduguid/ato-benchmark-compare.git
-cd ato-benchmark-compare
+git clone https://github.com/ryanduguid/RaymondChambers.git
+cd RaymondChambers
 pip install .
 ```
 
