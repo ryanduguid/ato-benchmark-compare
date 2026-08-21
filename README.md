@@ -1,5 +1,7 @@
 # Raymond Chambers
 
+![RaymondChambers](assets/banner.svg)
+
 [![tests](https://github.com/ryanduguid/RaymondChambers/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanduguid/RaymondChambers/actions/workflows/ci.yml)
 [![licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 [![python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
@@ -263,3 +265,4 @@ Every ATO rule it
 implements was checked against the ATO's own published pages, and the shipped
 benchmark figures were cross checked against the ATO's industry page for the same
 industry.
+
