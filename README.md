@@ -59,8 +59,8 @@ ratios](https://www.ato.gov.au/businesses-and-organisations/income-deductions-an
 ## Install
 
 ```bash
-git clone https://github.com/ryanduguid/RaymondChambers.git
-cd RaymondChambers
+git clone https://github.com/ryanduguid/RaymondChambers.git ato-benchmark-compare
+cd ato-benchmark-compare
 pip install .
 ```
 
