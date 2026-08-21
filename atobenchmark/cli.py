@@ -56,8 +56,10 @@ def _refuse_to_write_over_an_input(out: Path, inputs: list[str | None]) -> None:
                 raise MappingError(
                     f"refusing to write {out} because this run reads that same file"
                 )
-        except OSError:
-            continue
+        except OSError as exc:
+            raise MappingError(
+                f"refusing to write {out}: cannot resolve {other} ({exc})"
+            ) from exc
 
 
 def cmd_industries(args: argparse.Namespace) -> int:
