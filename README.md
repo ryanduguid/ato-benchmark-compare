@@ -3,7 +3,7 @@
 ![RaymondChambers](assets/banner.svg)
 
 [![tests](https://github.com/ryanduguid/RaymondChambers/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanduguid/RaymondChambers/actions/workflows/ci.yml)
-[![licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 
 Compare a set of profit and loss figures against the ATO small business benchmarks,
