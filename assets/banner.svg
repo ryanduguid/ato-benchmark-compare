@@ -13,6 +13,6 @@
   <text x="88" y="186" font-family="Consolas, 'Courier New', monospace" font-size="22" letter-spacing="6" fill="#9F6FD8">ATO SMALL BUSINESS BENCHMARKS</text>
   <text x="88" y="292" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="76" font-weight="700" fill="#ECECEC">RaymondChambers</text>
   <line x1="88" y1="330" x2="428" y2="330" stroke="#5C2D91" stroke-width="3"/>
-  <text x="88" y="404" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="22" fill="#B1AFAD">100+ ATO Industries · Precise Ratio Arithmetic · Account Key Hash Check · 100% Offline / Local</text>
+  <text x="88" y="404" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="22" fill="#B1AFAD">100+ ATO Industries &#183; Precise Ratio Arithmetic &#183; Account Key Hash Check &#183; 100% Offline / Local</text>
   <text x="88" y="488" font-family="Consolas, 'Courier New', monospace" font-size="22" fill="#9F6FD8">$ ato-benchmark-compare map --profit-and-loss pnl.csv --out mapping.csv</text>
 </svg>
