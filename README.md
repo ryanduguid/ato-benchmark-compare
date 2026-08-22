@@ -1,8 +1,8 @@
 # Raymond Chambers
 
-![RaymondChambers](assets/banner.svg)
+![ato-benchmark-compare](assets/banner.svg)
 
-[![tests](https://github.com/ryanduguid/RaymondChambers/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanduguid/RaymondChambers/actions/workflows/ci.yml)
+[![tests](https://github.com/ryanduguid/ato-benchmark-compare/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanduguid/ato-benchmark-compare/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 
@@ -59,7 +59,7 @@ ratios](https://www.ato.gov.au/businesses-and-organisations/income-deductions-an
 ## Install
 
 ```bash
-git clone https://github.com/ryanduguid/RaymondChambers.git ato-benchmark-compare
+git clone https://github.com/ryanduguid/ato-benchmark-compare.git ato-benchmark-compare
 cd ato-benchmark-compare
 pip install .
 ```
