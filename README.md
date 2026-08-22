@@ -3,8 +3,8 @@
 ![ato-benchmark-compare](assets/banner.svg)
 
 [![tests](https://github.com/ryanduguid/ato-benchmark-compare/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanduguid/ato-benchmark-compare/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-4F485E.svg?labelColor=04001F)](LICENSE)
+[![python](https://img.shields.io/badge/python-3.10%2B-5C2D91.svg?logo=python&logoColor=white&labelColor=04001F)](https://www.python.org/)
 
 Compare a set of profit and loss figures against the ATO small business benchmarks,
 on your own machine, with the working shown.
@@ -265,4 +265,3 @@ Every ATO rule it
 implements was checked against the ATO's own published pages, and the shipped
 benchmark figures were cross checked against the ATO's industry page for the same
 industry.
-
