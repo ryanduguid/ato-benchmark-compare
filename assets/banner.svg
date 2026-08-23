@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640" role="img" aria-label="RaymondChambers, ATO small business benchmarks">
-  <title>RaymondChambers, ATO small business benchmarks</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640" role="img" aria-label="ato-benchmark-compare, ATO small business benchmarks">
+  <title>ato-benchmark-compare, ATO small business benchmarks</title>
   <defs>
     <radialGradient id="glow" cx="82%" cy="12%" r="85%">
       <stop offset="0%" stop-color="#331764"/>
@@ -11,7 +11,7 @@
   <rect width="1280" height="640" fill="url(#glow)"/>
   <rect x="24.5" y="24.5" width="1231" height="591" fill="none" stroke="#4F485E" stroke-width="1"/>
   <text x="88" y="186" font-family="Consolas, 'Courier New', monospace" font-size="22" letter-spacing="6" fill="#9F6FD8">ATO SMALL BUSINESS BENCHMARKS</text>
-  <text x="88" y="292" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="76" font-weight="700" fill="#ECECEC">RaymondChambers</text>
+  <text x="88" y="292" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="76" font-weight="700" fill="#ECECEC">ato-benchmark-compare</text>
   <line x1="88" y1="330" x2="428" y2="330" stroke="#5C2D91" stroke-width="3"/>
   <text x="88" y="404" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="22" fill="#B1AFAD">100+ ATO Industries &#183; Precise Ratio Arithmetic &#183; Account Key Hash Check &#183; 100% Offline / Local</text>
   <text x="88" y="488" font-family="Consolas, 'Courier New', monospace" font-size="22" fill="#9F6FD8">$ ato-benchmark-compare map --profit-and-loss pnl.csv --out mapping.csv</text>
