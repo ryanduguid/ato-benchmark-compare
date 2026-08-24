@@ -13,7 +13,7 @@ Before tagging:
     ```
 
     Do not push the tag unless the output is exactly `true`. The Actions `GITHUB_TOKEN` cannot be granted repository Administration read access, so the tag workflow cannot perform this preflight itself.
-4. Confirm the versions in `pyproject.toml`, `atobenchmark/__init__.py` and `uv.lock` match the `RELEASE_NOTES.md` heading.
+4. Bump `__version__` in `atobenchmark/__init__.py`, the one place the version is written. `pyproject.toml` declares it dynamic and hatchling reads it from there, and `uv.lock` records the project as dynamic rather than pinning a number, so the only value to confirm against the `RELEASE_NOTES.md` heading is the module attribute. The release gate rejects the tag if the two disagree.
 5. Create an annotated tag on current remote `main`, for example `git tag -a v0.1.1 -m "v0.1.1"` (or `-s` when signing is configured), then push only that tag.
 
 The workflow runs the locked tests, builds the wheel and source distribution once, generates an SPDX 2.3 SBOM for the wheel and `SHA256SUMS`, records GitHub provenance and an SBOM attestation, then publishes the completed draft. An existing release is never overwritten.
