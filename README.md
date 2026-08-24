@@ -1,5 +1,19 @@
 # ato-benchmark-compare
 
+```
++----------------------------------------------------------------------+
+|                        ato-benchmark-compare                         |
++----------------------------------------------------------------------+
+|           Offline variance analysis against ATO benchmarks           |
++----------------------------------+-----------------------------------+
+| DR  what it gives you            | CR  what it needs                 |
++----------------------------------+-----------------------------------+
+| ATO benchmark ratio compare      | P and L figures per account       |
+| accurate turnover definition     | account to label mapping          |
+| shows the working per account    | -                                 |
++----------------------------------+-----------------------------------+
+```
+
 ![ato-benchmark-compare](assets/banner.svg)
 
 [![tests](https://github.com/ryanduguid/ato-benchmark-compare/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanduguid/ato-benchmark-compare/actions/workflows/ci.yml)
