@@ -3,6 +3,7 @@
 ![ato-benchmark-compare](assets/banner.svg)
 
 [![tests](https://github.com/ryanduguid/ato-benchmark-compare/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanduguid/ato-benchmark-compare/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/ato-benchmark-compare.svg?color=5C2D91&labelColor=04001F)](https://pypi.org/project/ato-benchmark-compare/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-4F485E.svg?labelColor=04001F)](LICENSE)
 [![python](https://img.shields.io/badge/python-3.10%2B-5C2D91.svg?logo=python&logoColor=white&labelColor=04001F)](https://www.python.org/)
 
@@ -55,6 +56,9 @@ pip install .
 
 Python 3.10 or later. The runtime has no dependencies at all: the benchmark data
 ships inside the package and nothing is fetched at run time.
+
+`pip install ato-benchmark-compare` installs the same package from PyPI; clone the
+repository when you want the example files used below.
 
 ## Use it
 
