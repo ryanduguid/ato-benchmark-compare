@@ -72,7 +72,6 @@ wheels = [
 
 [[package]]
 name = "ato-benchmark-compare"
-version = "0.1.3"
 source = { editable = "." }
 
 [package.optional-dependencies]

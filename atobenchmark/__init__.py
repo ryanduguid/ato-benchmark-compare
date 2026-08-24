@@ -6,6 +6,6 @@ from .dataset import load
 from .money import parse_amount
 from .report import compare
 
-__version__ = "0.1.2"
+__version__ = "0.1.4"
 
 __all__ = ["__version__", "compare", "load", "parse_amount"]
