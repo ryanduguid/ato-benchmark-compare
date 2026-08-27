@@ -13,11 +13,14 @@ from __future__ import annotations
 import csv
 import hashlib
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
+from decimal import Decimal
 from pathlib import Path
 
 from .atomic_io import atomic_text_writer
 from .csvsafe import guard
+from .pnl import PnlRow
 
 REVIEW = "REVIEW"
 
@@ -96,6 +99,27 @@ class MappingRow:
     amount: str = ""
 
 
+@dataclass(frozen=True)
+class MappingDraft:
+    """Suggested mapping rows and duplicate accounts collapsed into them."""
+
+    rows: tuple[MappingRow, ...]
+    duplicates: tuple[str, ...]
+
+    @property
+    def needs_review(self) -> int:
+        return sum(1 for row in self.rows if row.bucket == REVIEW)
+
+
+@dataclass(frozen=True)
+class RoutingResult:
+    """Bucket totals and review notes produced by routing mapped accounts."""
+
+    totals: dict[str, Decimal]
+    unreviewed: int
+    notes: tuple[str, ...]
+
+
 def suggest(account: str, section: str | None = None) -> tuple[str, str]:
     """Propose a bucket for an account name. Returns (bucket, reason)."""
     for pattern, bucket, reason in _COMPILED:
@@ -130,6 +154,107 @@ def account_key(account: str) -> str:
     """Stable digest of the established logical account identity."""
     identity = normalise_account(account)
     return hashlib.sha256(identity.encode("utf-8")).hexdigest()
+
+
+def suggest_mapping(rows: Iterable[PnlRow]) -> MappingDraft:
+    """Build reviewable mapping rows from parsed profit and loss rows."""
+    suggested: list[MappingRow] = []
+    seen: dict[str, str] = {}
+    duplicates: list[str] = []
+    for row in rows:
+        identity = normalise_account(row.account)
+        key = account_key(row.account)
+        if key in seen:
+            if seen[key] != identity:
+                raise MappingError(
+                    f"account identity hash collision between {seen[key]!r} and "
+                    f"{identity!r}; no mapping was written"
+                )
+            duplicates.append(row.account)
+            continue
+        seen[key] = identity
+        if row.is_total:
+            bucket, note = "excluded", "looks like a subtotal row, so it is left out"
+        else:
+            bucket, note = suggest(row.account, row.section)
+        suggested.append(
+            MappingRow(
+                account=row.account,
+                bucket=bucket,
+                source=SOURCE_SUGGESTED,
+                note=note,
+                amount=str(row.amount),
+            )
+        )
+
+    return MappingDraft(rows=tuple(suggested), duplicates=tuple(duplicates))
+
+
+def route(
+    rows: Iterable[PnlRow], mapping: dict[str, MappingRow], flip: bool
+) -> RoutingResult:
+    """Route parsed profit and loss rows through a reviewed mapping."""
+    totals = {name: Decimal(0) for name in BUCKETS}
+    notes: list[str] = []
+    unreviewed = 0
+    missing: list[str] = []
+    repeated: list[str] = []
+    counted: set[str] = set()
+
+    for row in rows:
+        identity = normalise_account(row.account)
+        key = account_key(row.account)
+        entry = mapping.get(key)
+        if entry is None:
+            missing.append(f"line {row.line_number}: {row.account}")
+            continue
+        if normalise_account(entry.account) != identity:
+            raise MappingError(
+                f"line {row.line_number}: account identity hash collision between "
+                f"{entry.account!r} and {row.account!r}; no amount was routed"
+            )
+        if key in counted:
+            # One mapping row cannot answer for two ledger rows with the same name, and
+            # guessing which bucket the second one belongs to is exactly the silent
+            # error this tool exists to avoid.
+            repeated.append(f"line {row.line_number}: {row.account}")
+            continue
+        counted.add(key)
+        if entry.source.strip().casefold() == SOURCE_SUGGESTED:
+            unreviewed += 1
+        if row.is_total and entry.bucket != "excluded":
+            notes.append(
+                f"{row.account!r} looks like a subtotal row but is mapped to "
+                f"{entry.bucket}. The mapping wins, so check it is not double counting."
+            )
+        amount = row.amount
+        if flip and entry.bucket in EXPENSE_BUCKETS:
+            amount = -amount
+        totals[entry.bucket] += amount
+
+    if missing:
+        listed = "\n  ".join(missing[:20])
+        more = "" if len(missing) <= 20 else f"\n  ... and {len(missing) - 20} more"
+        raise MappingError(
+            f"these profit and loss rows have no mapping entry:\n  {listed}{more}\n"
+            f"Rerun the map command, or add them to the mapping file."
+        )
+    if repeated:
+        listed = "\n  ".join(repeated[:20])
+        more = "" if len(repeated) <= 20 else f"\n  ... and {len(repeated) - 20} more"
+        raise MappingError(
+            f"these account names appear more than once in the export, so one mapping "
+            f"row cannot cover them:\n  {listed}{more}\n"
+            f"Give them distinct names in the export, or combine them into one row."
+        )
+
+    unused = sorted(set(mapping) - counted)
+    if unused:
+        notes.append(
+            f"{len(unused)} mapping row(s) did not match any account in the export: "
+            f"{', '.join(mapping[key].account for key in unused[:5])}"
+        )
+    return RoutingResult(totals=totals, unreviewed=unreviewed, notes=tuple(notes))
 
 
 def _duplicate_or_collision(
@@ -193,7 +318,7 @@ def _resolve_legacy_account(path: Path, number: int, displayed: str) -> str:
     return displayed
 
 
-def write_mapping(path: Path, rows: list[MappingRow]) -> None:
+def write_mapping(path: Path, rows: Iterable[MappingRow]) -> None:
     prepared: list[tuple[MappingRow, str]] = []
     seen: dict[str, str] = {}
     for row in rows:
