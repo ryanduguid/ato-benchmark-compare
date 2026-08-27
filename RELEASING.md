@@ -16,21 +16,60 @@ Before tagging:
 
     Do not push the tag unless the output is exactly `true`. The Actions `GITHUB_TOKEN` cannot be granted repository Administration read access, so the tag workflow cannot perform this preflight itself.
 4. Bump `__version__` in `atobenchmark/__init__.py`, the one place the version is written. `pyproject.toml` declares it dynamic and hatchling reads it from there, and `uv.lock` records the project as dynamic rather than pinning a number, so the only value to confirm against the `RELEASE_NOTES.md` heading is the module attribute. The release gate rejects the tag if the two disagree.
-5. Create an annotated tag on current remote `main`, for example `git tag -a v0.1.1 -m "v0.1.1"` (or `-s` when signing is configured), then push only that tag.
+5. Create an annotated tag on current remote `main`, for example `git tag -a v0.1.5 -m "v0.1.5"` (or `-s` when signing is configured), then push only that tag.
 
 The workflow runs the locked tests, builds the wheel and source distribution once, generates an SPDX 2.3 SBOM for the wheel and `SHA256SUMS`, records GitHub provenance and an SBOM attestation, then publishes the completed draft. An existing release is never overwritten.
 
 Verify the downloaded release with:
 
 ```bash
-gh release download v0.1.1 -R ryanduguid/ato-benchmark-compare --dir release-v0.1.1
-cd release-v0.1.1
+tag=v0.1.4
+repo=ryanduguid/ato-benchmark-compare
+wheel="ato_benchmark_compare-${tag#v}-py3-none-any.whl"
+release_commit="$(git ls-remote "https://github.com/$repo.git" "refs/tags/$tag^{}" | cut -f1)"
+test -n "$release_commit"
+gh release download "$tag" -R "$repo" --dir "release-$tag"
+cd "release-$tag"
 sha256sum --check SHA256SUMS
-gh attestation verify ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/ato-benchmark-compare
-gh attestation verify ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/ato-benchmark-compare --predicate-type https://spdx.dev/Document/v2.3
-gh release view v0.1.1 -R ryanduguid/ato-benchmark-compare --json isImmutable
-gh release verify v0.1.1 -R ryanduguid/ato-benchmark-compare
-gh release verify-asset v0.1.1 ato_benchmark_compare-0.1.1-py3-none-any.whl -R ryanduguid/ato-benchmark-compare
+gh attestation verify "$wheel" -R "$repo" \
+  --source-digest "$release_commit" \
+  --source-ref "refs/tags/$tag" \
+  --signer-workflow ryanduguid/release-policy/.github/workflows/release-python.yml \
+  --signer-digest 3b8a377207cab2c7c808fcc96b66578f4695beea
+gh attestation verify "$wheel" -R "$repo" \
+  --predicate-type https://spdx.dev/Document/v2.3 \
+  --source-digest "$release_commit" \
+  --source-ref "refs/tags/$tag" \
+  --signer-workflow ryanduguid/release-policy/.github/workflows/release-python.yml \
+  --signer-digest 3b8a377207cab2c7c808fcc96b66578f4695beea
+gh release view "$tag" -R "$repo" --json isImmutable
+gh release verify "$tag" -R "$repo"
+gh release verify-asset "$tag" "$wheel" -R "$repo"
+```
+
+Those commands preserve the signer identity of historical release `v0.1.4`.
+Releases cut after the shared Python-policy migration use the hardened policy
+digest below. For the next release, update `tag` if the intended version
+changes and verify that exact source and signer identity after downloading the
+assets and checking `SHA256SUMS`:
+
+```bash
+tag=v0.1.5
+repo=ryanduguid/ato-benchmark-compare
+wheel="ato_benchmark_compare-${tag#v}-py3-none-any.whl"
+release_commit="$(git ls-remote "https://github.com/$repo.git" "refs/tags/$tag^{}" | cut -f1)"
+test -n "$release_commit"
+gh attestation verify "$wheel" -R "$repo" \
+  --source-digest "$release_commit" \
+  --source-ref "refs/tags/$tag" \
+  --signer-workflow ryanduguid/release-policy/.github/workflows/release-python.yml \
+  --signer-digest 8b4de1ed339f1358b5f3e850b63412d8717d01da
+gh attestation verify "$wheel" -R "$repo" \
+  --predicate-type https://spdx.dev/Document/v2.3 \
+  --source-digest "$release_commit" \
+  --source-ref "refs/tags/$tag" \
+  --signer-workflow ryanduguid/release-policy/.github/workflows/release-python.yml \
+  --signer-digest 8b4de1ed339f1358b5f3e850b63412d8717d01da
 ```
 
 If any gate fails, inspect it before touching the tag or draft. Never move a published tag.
