@@ -1,5 +1,7 @@
 # Releasing
 
+The repository's [GitHub Releases](https://github.com/ryanduguid/ato-benchmark-compare/releases) page is the canonical release history. A separate changelog is intentionally not maintained.
+
 Releases are built by GitHub Actions from an annotated tag on the exact `main` commit. Do not build or upload wheel and source-distribution assets by hand.
 
 Before tagging:
