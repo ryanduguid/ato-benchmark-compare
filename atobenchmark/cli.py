@@ -12,7 +12,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from decimal import Decimal
 from pathlib import Path
 
 from . import __version__, dataset as dataset_module, mapping as mapping_module, pnl as pnl_module
@@ -20,12 +19,8 @@ from .atomic_io import atomic_write_text
 from .dataset import Dataset, DatasetError, RATIO_KEYS, RATIO_LABELS
 from .mapping import (
     BUCKETS,
-    EXPENSE_BUCKETS,
     MappingError,
-    MappingRow,
     REVIEW,
-    SOURCE_SUGGESTED,
-    normalise_account,
 )
 from .money import AmountError, parse_amount, percent_range
 from .ratios import RatioError, compute
@@ -114,51 +109,28 @@ def cmd_map(args: argparse.Namespace) -> int:
         return EXIT_ERROR
 
     source = pnl_module.read(Path(args.profit_and_loss), args.amount_column)
-    rows: list[MappingRow] = []
-    seen: dict[str, str] = {}
-    duplicates: list[str] = []
-    for row in source.rows:
-        identity = normalise_account(row.account)
-        key = mapping_module.account_key(row.account)
-        if key in seen:
-            if seen[key] != identity:
-                raise MappingError(
-                    f"account identity hash collision between {seen[key]!r} and "
-                    f"{identity!r}; no mapping was written"
-                )
-            duplicates.append(row.account)
-            continue
-        seen[key] = identity
-        if row.is_total:
-            bucket, note = "excluded", "looks like a subtotal row, so it is left out"
-        else:
-            bucket, note = mapping_module.suggest(row.account, row.section)
-        rows.append(
-            MappingRow(
-                account=row.account,
-                bucket=bucket,
-                source=SOURCE_SUGGESTED,
-                note=note,
-                amount=str(row.amount),
-            )
-        )
+    draft = mapping_module.suggest_mapping(source.rows)
 
     out.parent.mkdir(parents=True, exist_ok=True)
-    mapping_module.write_mapping(out, rows)
+    mapping_module.write_mapping(out, draft.rows)
 
-    needs_review = sum(1 for row in rows if row.bucket == REVIEW)
-    print(f"Wrote {out} with {len(rows)} account(s) from a {source.layout} layout export.")
+    print(f"Wrote {out} with {len(draft.rows)} account(s) from a {source.layout} layout export.")
     print(f"Amounts were read from {source.amount_column}.")
-    if duplicates:
-        print(f"{len(duplicates)} repeated account name(s) collapsed to one row: {', '.join(duplicates[:5])}")
+    if draft.duplicates:
+        print(
+            f"{len(draft.duplicates)} repeated account name(s) collapsed to one row: "
+            f"{', '.join(draft.duplicates[:5])}"
+        )
     if source.skipped:
         print(f"{len(source.skipped)} row(s) carried no readable amount and were left out:")
         for line in source.skipped[:10]:
             print(f"  {line}")
         if len(source.skipped) > 10:
             print(f"  ... and {len(source.skipped) - 10} more")
-    if needs_review:
-        print(f"{needs_review} account(s) are marked {REVIEW} and must be given a bucket.")
+    if draft.needs_review:
+        print(
+            f"{draft.needs_review} account(s) are marked {REVIEW} and must be given a bucket."
+        )
     print()
     print("Every bucket in that file is a suggestion made from the account name alone.")
     print("Read the ledger, correct the buckets, and change the source column to 'reviewed'.")
@@ -166,88 +138,22 @@ def cmd_map(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
-def _bucket_totals(
-    source: pnl_module.PnlFile, mapping: dict[str, MappingRow], flip: bool
-) -> tuple[dict[str, Decimal], int, list[str]]:
-    totals = {name: Decimal(0) for name in BUCKETS}
-    notes: list[str] = []
-    unreviewed = 0
-    missing: list[str] = []
-    repeated: list[str] = []
-    counted: set[str] = set()
-
-    for row in source.rows:
-        identity = normalise_account(row.account)
-        key = mapping_module.account_key(row.account)
-        entry = mapping.get(key)
-        if entry is None:
-            missing.append(f"line {row.line_number}: {row.account}")
-            continue
-        if normalise_account(entry.account) != identity:
-            raise MappingError(
-                f"line {row.line_number}: account identity hash collision between "
-                f"{entry.account!r} and {row.account!r}; no amount was routed"
-            )
-        if key in counted:
-            # One mapping row cannot answer for two ledger rows with the same name, and
-            # guessing which bucket the second one belongs to is exactly the silent
-            # error this tool exists to avoid.
-            repeated.append(f"line {row.line_number}: {row.account}")
-            continue
-        counted.add(key)
-        if entry.source.strip().casefold() == SOURCE_SUGGESTED:
-            unreviewed += 1
-        if row.is_total and entry.bucket != "excluded":
-            notes.append(
-                f"{row.account!r} looks like a subtotal row but is mapped to "
-                f"{entry.bucket}. The mapping wins, so check it is not double counting."
-            )
-        amount = row.amount
-        if flip and entry.bucket in EXPENSE_BUCKETS:
-            amount = -amount
-        totals[entry.bucket] += amount
-
-    if missing:
-        listed = "\n  ".join(missing[:20])
-        more = "" if len(missing) <= 20 else f"\n  ... and {len(missing) - 20} more"
-        raise MappingError(
-            f"these profit and loss rows have no mapping entry:\n  {listed}{more}\n"
-            f"Rerun the map command, or add them to the mapping file."
-        )
-    if repeated:
-        listed = "\n  ".join(repeated[:20])
-        more = "" if len(repeated) <= 20 else f"\n  ... and {len(repeated) - 20} more"
-        raise MappingError(
-            f"these account names appear more than once in the export, so one mapping "
-            f"row cannot cover them:\n  {listed}{more}\n"
-            f"Give them distinct names in the export, or combine them into one row."
-        )
-
-    unused = sorted(set(mapping) - counted)
-    if unused:
-        notes.append(
-            f"{len(unused)} mapping row(s) did not match any account in the export: "
-            f"{', '.join(mapping[key].account for key in unused[:5])}"
-        )
-    return totals, unreviewed, notes
-
-
 def cmd_compare(args: argparse.Namespace) -> int:
     data = _load(args)
     business_type = data.get(args.industry)
     source = pnl_module.read(Path(args.profit_and_loss), args.amount_column)
     mapping = mapping_module.read_mapping(Path(args.mapping))
-    totals, unreviewed, join_notes = _bucket_totals(source, mapping, args.flip_expense_signs)
+    routing = mapping_module.route(source.rows, mapping, args.flip_expense_signs)
 
     w1 = parse_amount(args.w1, "--w1") if args.w1 is not None else None
-    figures = compute(totals, w1=w1)
+    figures = compute(routing.totals, w1=w1)
     comparison = compare_ratios(data, business_type, figures)
-    comparison.notes.extend(join_notes)
+    comparison.notes.extend(routing.notes)
 
     if args.json and args.json != "-":
         _refuse_to_write_over_an_input(Path(args.json), [args.profit_and_loss, args.mapping])
     if args.json:
-        payload = to_dict(comparison, unreviewed=unreviewed)
+        payload = to_dict(comparison, unreviewed=routing.unreviewed)
         text = json.dumps(payload, indent=2, ensure_ascii=False) + "\n"
         if args.json == "-":
             print(text, end="")
@@ -255,9 +161,9 @@ def cmd_compare(args: argparse.Namespace) -> int:
             atomic_write_text(Path(args.json), text, encoding="utf-8", newline="\n")
             print(f"Wrote {args.json}")
     if args.json != "-":
-        print(render_text(comparison, unreviewed=unreviewed))
+        print(render_text(comparison, unreviewed=routing.unreviewed))
 
-    if unreviewed and not args.accept_unreviewed:
+    if routing.unreviewed and not args.accept_unreviewed:
         return EXIT_UNREVIEWED
     if comparison.outside_key_range:
         return EXIT_OUTSIDE

@@ -14,11 +14,10 @@ from atobenchmark.cli import (
     EXIT_OK,
     EXIT_OUTSIDE,
     EXIT_UNREVIEWED,
-    _bucket_totals,
     main,
 )
 from atobenchmark.mapping import MappingError, MappingRow, read_mapping
-from atobenchmark.pnl import PnlFile, PnlRow
+from atobenchmark.pnl import PnlRow
 
 EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
 BAKERY_PNL = EXAMPLES / "bakery-pnl.csv"
@@ -392,12 +391,7 @@ def test_comparison_rejects_a_forced_digest_collision_before_routing_amounts(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     monkeypatch.setattr(mapping_module, "account_key", lambda _account: "a" * 64, raising=False)
-    source = PnlFile(
-        rows=(PnlRow("Rent", Decimal("10"), line_number=2),),
-        layout="neutral",
-        amount_column="amount",
-        skipped=(),
-    )
+    source = (PnlRow("Rent", Decimal("10"), line_number=2),)
     rows = {"a" * 64: MappingRow("Sales", "turnover", "reviewed")}
     with pytest.raises(MappingError, match="collision"):
-        _bucket_totals(source, rows, flip=False)
+        mapping_module.route(source, rows, flip=False)
