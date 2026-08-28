@@ -36,7 +36,14 @@ ato-benchmark-compare = "atobenchmark.cli:main"
 
 [project.optional-dependencies]
 dev = [
-    "ruff>=0.11", "mypy>=1.14","pytest>=8", "openpyxl>=3.1", "build>=1.2"]
+    "ruff>=0.11",
+    "mypy>=1.14",
+    "pytest>=8",
+    "openpyxl>=3.1",
+    "build>=1.2",
+    "coverage==7.15.4",
+    "diff-cover==10.5.1",
+]
 
 [tool.hatch.version]
 # One version string for the project, read from the module the runtime and the
