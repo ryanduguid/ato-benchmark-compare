@@ -197,7 +197,7 @@ and use `--amount-column` if it picked the wrong period.
 
 | Code | Meaning |
 | --- | --- |
-| 0 | Comparison produced, key ratio inside the ATO range |
+| 0 | Comparison produced, nothing to flag: key ratio inside the ATO range, or no published range applies to this turnover |
 | 1 | Could not produce a comparison, for example an account with no mapping entry |
 | 2 | Comparison produced, key ratio outside the ATO range |
 | 3 | Comparison produced, but accounts still carry suggested buckets |

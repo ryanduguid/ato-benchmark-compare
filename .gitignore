@@ -17,6 +17,9 @@ exports/
 *.xls
 *.xlsm
 !tests/fixtures/*.xlsx
+# The !examples/** above comes before the spreadsheet patterns, so the two fixture
+# directories CONTRIBUTING names both need the exception restated here.
+!examples/*.xlsx
 
 # Credentials
 .env
