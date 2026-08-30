@@ -66,8 +66,9 @@ def _quantise(value: Decimal, places: Decimal) -> Decimal:
     """Round to fixed places, refusing a value the decimal context cannot hold.
 
     quantize raises InvalidOperation once the result would need more digits than the
-    context allows, which is a ValueError but not an AmountError, so left alone it ends
-    a run with a traceback after the comparison has already been produced.
+    context allows. That is an ArithmeticError, so the CLI's error handler does not
+    see it and left alone it ends a run with a traceback after the comparison has
+    already been produced. AmountError is a ValueError the handler already catches.
     """
     try:
         return value.quantize(places, rounding=ROUND_HALF_UP)

@@ -100,22 +100,34 @@ def section_for(label: str) -> str | None:
 def read(path: Path, amount_column: str | None = None) -> PnlFile:
     if not path.is_file():
         raise PnlError(f"profit and loss file not found: {path}")
+    # Decoded from bytes rather than read_text() for the reason read_mapping gives:
+    # an account name can carry a quoted newline, and read_text() applies
+    # universal-newline translation, which rewrites a quoted CRLF to a bare LF.
+    # Matching survives either spelling, because normalise_account collapses \s+ to
+    # one space and both reach the same account_key. What read_text() broke is every
+    # path that writes the name back out: map drafted a mapping file whose account
+    # column held a name the export does not contain.
+    raw = path.read_bytes()
     try:
-        text = path.read_text(encoding="utf-8-sig")
+        text = raw.decode("utf-8-sig")
     except UnicodeDecodeError as exc:
         # UnicodeDecodeError is a ValueError, not a PnlError, so left alone it ends the
         # run with a traceback. A "CSV (Comma delimited)" export from a Windows
         # accounting package is cp1252, which fails here on the first accented account
-        # name or smart apostrophe.
+        # name or smart apostrophe. utf-8-sig strips the byte-order mark before
+        # decoding, so exc.start counts from the text after it. Add those three bytes
+        # back, or the position names nothing the operator can find in the file.
+        offset = exc.start + (3 if raw.startswith(b"\xef\xbb\xbf") else 0)
         raise PnlError(
-            f"{path}: not valid UTF-8 text at byte {exc.start}. Re-save the export as "
-            f"CSV UTF-8; a Windows export is usually cp1252, which this tool cannot read."
+            f"{path}: not valid UTF-8 text at byte {offset}. Re-save the export as "
+            f"CSV UTF-8. A Windows export is usually cp1252, which this tool cannot read."
         ) from exc
     if not text.strip():
         raise PnlError(f"{path}: file is empty")
     # io.StringIO rather than splitlines(): an account name can contain a quoted
-    # newline, and splitlines() would cut the row in half inside the quotes.
-    rows = list(csv.reader(io.StringIO(text)))
+    # newline, and splitlines() would cut the row in half inside the quotes. newline=""
+    # for the same reason a file handle would be given it.
+    rows = list(csv.reader(io.StringIO(text, newline="")))
     if not rows:
         raise PnlError(f"{path}: file is empty")
 

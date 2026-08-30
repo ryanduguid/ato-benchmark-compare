@@ -20,9 +20,10 @@ last updated 16 March 2026. The rules this module implements are:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 
 from .mapping import BUCKETS, EXPENSE_BUCKETS
+from .money import AmountError
 
 #: Ratios are held to four decimal places, which is two decimal places as a
 #: percentage. The comparison and the printed figure therefore always agree.
@@ -53,7 +54,19 @@ class Figures:
 
 
 def quantise(value: Decimal) -> Decimal:
-    return value.quantize(RATIO_PLACES, rounding=ROUND_HALF_UP)
+    """Round a ratio, refusing a value the decimal context cannot hold.
+
+    The same guard the money formatters carry, and it has to be here too: a
+    ratio is computed before anything is formatted, so an oversized amount
+    reaches this quantize first and would end the run in a traceback while the
+    formatters were still waiting their turn.
+    """
+    try:
+        return value.quantize(RATIO_PLACES, rounding=ROUND_HALF_UP)
+    except InvalidOperation as exc:
+        raise AmountError(
+            f"{value} has more digits than this tool can report"
+        ) from exc
 
 
 def compute(totals: dict[str, Decimal], w1: Decimal | None = None) -> Figures:

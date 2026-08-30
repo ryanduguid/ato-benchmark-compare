@@ -16,12 +16,10 @@ exports/
 *.xlsx
 *.xls
 *.xlsm
+!tests/fixtures/*.xlsx
 # The !examples/** above comes before the spreadsheet patterns, so the two fixture
-# directories CONTRIBUTING names both need the exception restated here. CONTRIBUTING
-# offers each as a directory, so the ** matches nested fixtures too; a bare
-# tests/fixtures/*.xlsx would silently ignore anything below the top level.
-!tests/fixtures/**/*.xlsx
-!examples/**/*.xlsx
+# directories CONTRIBUTING names both need the exception restated here.
+!examples/*.xlsx
 
 # Credentials
 .env

@@ -118,10 +118,10 @@ def cmd_map(args: argparse.Namespace) -> int:
     print(f"Wrote {out} with {len(draft.rows)} account(s) from a {source.layout} layout export.")
     print(f"Amounts were read from {source.amount_column}.")
     if draft.duplicates:
-        # Not "collapsed to one row": compare refuses this export whatever the mapping
-        # says, because route will not answer for a second ledger row of the same name
-        # and read_mapping will not accept a second mapping row for it. The export
-        # itself has to change, so say that rather than describing it as handled.
+        # The compare command refuses this export whatever the mapping holds, because
+        # route will not answer for a second ledger row of the same name and
+        # read_mapping will not accept a second mapping row for it. The export itself
+        # has to change, so the message asks for distinct names or one combined row.
         print(
             f"{len(draft.duplicates)} account name(s) appear more than once in the "
             f"export and share one mapping row: {', '.join(draft.duplicates[:5])}"

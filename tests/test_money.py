@@ -64,8 +64,9 @@ def test_formatting_a_value_past_the_decimal_context_is_refused(
     formatter: Callable[[Decimal], str],
 ) -> None:
     # quantize raises InvalidOperation once the result needs more digits than the
-    # context holds. That is a ValueError but not an AmountError, so unconverted it
-    # ends the run in a traceback instead of the usual error line.
+    # context holds. That is an ArithmeticError, which the CLI's error handler does
+    # not catch, so unconverted it ends the run in a traceback rather than the usual
+    # error line.
     with pytest.raises(AmountError):
         formatter(Decimal("1" + "0" * 30))
 

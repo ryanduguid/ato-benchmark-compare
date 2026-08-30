@@ -16,6 +16,7 @@ from atobenchmark.cli import (
     EXIT_UNREVIEWED,
     main,
 )
+from atobenchmark import pnl as pnl_module
 from atobenchmark.mapping import MappingError, MappingRow, read_mapping
 from atobenchmark.pnl import PnlRow
 
@@ -491,6 +492,100 @@ def test_an_amount_too_large_to_format_is_reported_as_an_error(
     )
     assert code == EXIT_ERROR
     assert capsys.readouterr().err.startswith("error: ")
+
+
+def test_an_amount_too_large_to_ratio_is_reported_as_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # The test above puts the oversized figure on turnover, where a formatter reaches
+    # it first. Put it on an expense beside a tiny turnover and the ratio arithmetic
+    # gets there first instead, through ratios.quantise, which had no guard of its own
+    # and ended the run in an InvalidOperation traceback.
+    pnl = tmp_path / "p.csv"
+    pnl.write_text(
+        "account,amount\nSales,1\nPurchases,999999999999999999999999999999\n",
+        encoding="utf-8",
+    )
+    mapping = tmp_path / "m.csv"
+    mapping.write_text(
+        "account,bucket\nSales,turnover\nPurchases,cost_of_sales\n", encoding="utf-8"
+    )
+    code = main(
+        [
+            "compare",
+            "--profit-and-loss", str(pnl),
+            "--mapping", str(mapping),
+            "--industry", "bakeries",
+        ]
+    )
+    assert code == EXIT_ERROR
+    assert capsys.readouterr().err.startswith("error: ")
+
+
+def test_a_quoted_crlf_in_an_account_name_reaches_the_reader_intact(
+    tmp_path: Path,
+) -> None:
+    # This pins string fidelity: both readers hand back the name the file holds.
+    # Matching survives either spelling, because normalise_account collapses \s+ to one
+    # space, so 'Sales\r\nNorth' and 'Sales\nNorth' reach the same account_key. What
+    # read_text() broke is every place the name is written back out: running map against
+    # an export holding the CRLF drafted a mapping file whose account column read
+    # 'Sales\nNorth', a name the export does not contain.
+    name = 'Sales\r\nNorth'
+    pnl = tmp_path / "p.csv"
+    pnl.write_bytes(b'account,amount\r\n"Sales\r\nNorth",500000\r\n')
+    mapping = tmp_path / "m.csv"
+    mapping.write_bytes(b'account,bucket\r\n"Sales\r\nNorth",turnover\r\n')
+
+    rows = pnl_module.read(pnl).rows
+    assert [row.account for row in rows] == [name]
+    assert set(mapping_module.read_mapping(mapping)) == {
+        mapping_module.account_key(name)
+    }
+
+
+def test_an_export_whose_rows_end_in_a_bare_cr_is_read(tmp_path: Path) -> None:
+    # Decoding from bytes drops the universal-newline translation read_text() applied,
+    # which is what makes newline="" on the csv reader load bearing. A classic-Mac
+    # export ends its rows with a bare CR and no LF. Left at the StringIO default the
+    # whole file is one line, and csv raises "new-line character seen in unquoted
+    # field" before any row is parsed.
+    pnl = tmp_path / "p.csv"
+    pnl.write_bytes(b"account,amount\rSales,500000\rPurchases,120000\r")
+    assert [(row.account, row.amount) for row in pnl_module.read(pnl).accounts] == [
+        ("Sales", Decimal("500000")),
+        ("Purchases", Decimal("120000")),
+    ]
+
+    mapping = tmp_path / "m.csv"
+    mapping.write_bytes(b"account,bucket\rSales,turnover\rPurchases,cost_of_sales\r")
+    assert set(mapping_module.read_mapping(mapping)) == {
+        mapping_module.account_key("Sales"),
+        mapping_module.account_key("Purchases"),
+    }
+
+
+@pytest.mark.parametrize("with_bom", [False, True])
+def test_the_reported_byte_position_counts_from_the_start_of_the_file(
+    tmp_path: Path, with_bom: bool
+) -> None:
+    # utf-8-sig strips the byte-order mark before decoding, so the position the
+    # decoder reports counts from the text after it. Left uncorrected the message
+    # named a byte three earlier than the one an operator opening the file would find.
+    prefix = b"\xef\xbb\xbf" if with_bom else b""
+    payload = prefix + b"account,amount\nSales,\xff00\n"
+    expected = payload.index(b"\xff")
+
+    pnl = tmp_path / "p.csv"
+    pnl.write_bytes(payload)
+    with pytest.raises(pnl_module.PnlError, match=f"at byte {expected}\\."):
+        pnl_module.read(pnl)
+
+    mapping = tmp_path / "m.csv"
+    mapping.write_bytes(prefix + b"account,bucket\nSales,\xffturnover\n")
+    expected_mapping = (prefix + b"account,bucket\nSales,\xffturnover\n").index(b"\xff")
+    with pytest.raises(MappingError, match=f"at byte {expected_mapping}\\."):
+        mapping_module.read_mapping(mapping)
 
 
 def test_comparison_rejects_a_forced_digest_collision_before_routing_amounts(

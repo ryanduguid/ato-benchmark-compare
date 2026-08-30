@@ -358,13 +358,18 @@ def read_mapping(path: Path) -> dict[str, MappingRow]:
         # Decoded from bytes rather than read_text() so that no newline translation
         # happens: an account name can carry a quoted newline, and the reader is given
         # newline="" for the same reason a file handle would be.
-        text = path.read_bytes().decode("utf-8-sig")
+        data = path.read_bytes()
+        text = data.decode("utf-8-sig")
     except UnicodeDecodeError as exc:
         # UnicodeDecodeError is a ValueError, not a MappingError, so left alone it ends
-        # the run with a traceback rather than an error line naming the file.
+        # the run with a traceback rather than an error line naming the file. utf-8-sig
+        # strips the byte-order mark before decoding, so exc.start counts from the text
+        # after it. Add those three bytes back, or the position names nothing the
+        # operator can find in the file.
+        offset = exc.start + (3 if data.startswith(b"\xef\xbb\xbf") else 0)
         raise MappingError(
-            f"{path}: not valid UTF-8 text at byte {exc.start}. Re-save the mapping as "
-            f"CSV UTF-8; a Windows export is usually cp1252, which this tool cannot read."
+            f"{path}: not valid UTF-8 text at byte {offset}. Re-save the mapping as "
+            f"CSV UTF-8. A Windows export is usually cp1252, which this tool cannot read."
         ) from exc
     with io.StringIO(text, newline="") as handle:
         reader = csv.reader(handle)
