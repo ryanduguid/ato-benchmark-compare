@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from decimal import Decimal
 
 import pytest
@@ -56,6 +57,17 @@ def test_percent_keeps_two_places() -> None:
     # 30.96% must not print as 31% next to a verdict of "below the 31% to 38% range".
     assert percent(Decimal("0.3096")) == "30.96%"
     assert percent(Decimal("0.31")) == "31.00%"
+
+
+@pytest.mark.parametrize("formatter", [money, percent, percent_compact])
+def test_formatting_a_value_past_the_decimal_context_is_refused(
+    formatter: Callable[[Decimal], str],
+) -> None:
+    # quantize raises InvalidOperation once the result needs more digits than the
+    # context holds. That is a ValueError but not an AmountError, so unconverted it
+    # ends the run in a traceback instead of the usual error line.
+    with pytest.raises(AmountError):
+        formatter(Decimal("1" + "0" * 30))
 
 
 def test_percent_compact_trims_published_bounds() -> None:

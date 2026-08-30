@@ -62,9 +62,22 @@ def parse_amount(raw: str, where: str = "amount") -> Decimal:
     return -value if negative else value
 
 
+def _quantise(value: Decimal, places: Decimal) -> Decimal:
+    """Round to fixed places, refusing a value the decimal context cannot hold.
+
+    quantize raises InvalidOperation once the result would need more digits than the
+    context allows, which is a ValueError but not an AmountError, so left alone it ends
+    a run with a traceback after the comparison has already been produced.
+    """
+    try:
+        return value.quantize(places, rounding=ROUND_HALF_UP)
+    except InvalidOperation as exc:
+        raise AmountError(f"{value} has more digits than this tool can report") from exc
+
+
 def money(value: Decimal) -> str:
     """Format an amount for display, with thousands separators and two decimals."""
-    quantised = value.quantize(CENTS, rounding=ROUND_HALF_UP)
+    quantised = _quantise(value, CENTS)
     if quantised == 0:
         # Decimal keeps the sign through quantize, so -0.001 would print as -0.00.
         quantised = abs(quantised)
@@ -78,13 +91,13 @@ def percent(value: Decimal) -> str:
     a computed 30.96% must not be displayed as 31% next to a verdict of "below the
     31% to 38% range".
     """
-    scaled = (value * 100).quantize(PERCENT_PLACES, rounding=ROUND_HALF_UP)
+    scaled = _quantise(value * 100, PERCENT_PLACES)
     return f"{scaled}%"
 
 
 def percent_compact(value: Decimal) -> str:
     """Format a published benchmark bound without padding zeros: 29% rather than 29.00%."""
-    scaled = (value * 100).quantize(PERCENT_PLACES, rounding=ROUND_HALF_UP)
+    scaled = _quantise(value * 100, PERCENT_PLACES)
     text = f"{scaled:.2f}".rstrip("0").rstrip(".")
     return f"{text or '0'}%"
 

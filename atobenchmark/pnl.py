@@ -100,7 +100,17 @@ def section_for(label: str) -> str | None:
 def read(path: Path, amount_column: str | None = None) -> PnlFile:
     if not path.is_file():
         raise PnlError(f"profit and loss file not found: {path}")
-    text = path.read_text(encoding="utf-8-sig")
+    try:
+        text = path.read_text(encoding="utf-8-sig")
+    except UnicodeDecodeError as exc:
+        # UnicodeDecodeError is a ValueError, not a PnlError, so left alone it ends the
+        # run with a traceback. A "CSV (Comma delimited)" export from a Windows
+        # accounting package is cp1252, which fails here on the first accented account
+        # name or smart apostrophe.
+        raise PnlError(
+            f"{path}: not valid UTF-8 text at byte {exc.start}. Re-save the export as "
+            f"CSV UTF-8; a Windows export is usually cp1252, which this tool cannot read."
+        ) from exc
     if not text.strip():
         raise PnlError(f"{path}: file is empty")
     # io.StringIO rather than splitlines(): an account name can contain a quoted

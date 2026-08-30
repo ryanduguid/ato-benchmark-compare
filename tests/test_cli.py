@@ -383,8 +383,114 @@ def test_map_still_collapses_normalisation_equivalent_accounts(
     )
     mapped = tmp_path / "m.csv"
     assert main(["map", "--profit-and-loss", str(pnl), "--out", str(mapped)]) == EXIT_OK
-    assert "collapsed to one row" in capsys.readouterr().out
+    assert "appear more than once in the export" in capsys.readouterr().out
     assert len(read_mapping(mapped)) == 1
+
+
+def test_map_says_repeated_names_must_be_fixed_in_the_export(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # compare can never run against these two files, whatever is done to the mapping,
+    # so map has to name the export as the thing that must change. A message that reads
+    # as though the repetition was handled sends the user on to a dead end.
+    pnl = tmp_path / "source.csv"
+    pnl.write_text(
+        "account,amount\nSales,500000\nPurchases,100000\nPURCHASES,60000\n",
+        encoding="utf-8",
+    )
+    mapped = tmp_path / "m.csv"
+    assert main(["map", "--profit-and-loss", str(pnl), "--out", str(mapped)]) == EXIT_OK
+    printed = capsys.readouterr().out
+    assert "Give them distinct names in the export, or combine them into one row." in printed
+    assert "compare will not run against this export" in printed
+    assert "collapsed" not in printed
+
+    assert main(
+        [
+            "compare",
+            "--profit-and-loss", str(pnl),
+            "--mapping", str(mapped),
+            "--industry", "bakeries",
+        ]
+    ) == EXIT_ERROR
+    assert "appear more than once in the export" in capsys.readouterr().err
+
+
+def test_a_profit_and_loss_that_is_not_utf8_is_reported_as_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # "CSV (Comma delimited)" out of a Windows accounting package is cp1252, so the
+    # first accented account name is not valid UTF-8. UnicodeDecodeError is a
+    # ValueError and not one main catches, so unconverted it ends the run in a
+    # traceback where every other bad input gives one error line and exit 1.
+    pnl = tmp_path / "p.csv"
+    pnl.write_bytes("account,amount\nCafé supplies,1000\nSales,500000\n".encode("cp1252"))
+    mapping = tmp_path / "m.csv"
+    mapping.write_text("account,bucket\nSales,turnover\n", encoding="utf-8")
+    code = main(
+        [
+            "compare",
+            "--profit-and-loss", str(pnl),
+            "--mapping", str(mapping),
+            "--industry", "bakeries",
+        ]
+    )
+    assert code == EXIT_ERROR
+    err = capsys.readouterr().err
+    assert err.startswith("error: ")
+    assert str(pnl) in err
+    assert "not valid UTF-8" in err
+
+
+def test_a_mapping_that_is_not_utf8_is_reported_as_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    pnl = tmp_path / "p.csv"
+    pnl.write_text("account,amount\nSales,500000\n", encoding="utf-8")
+    mapping = tmp_path / "m.csv"
+    mapping.write_bytes(
+        "account,bucket\nCafé supplies,cost_of_sales\nSales,turnover\n".encode("cp1252")
+    )
+    code = main(
+        [
+            "compare",
+            "--profit-and-loss", str(pnl),
+            "--mapping", str(mapping),
+            "--industry", "bakeries",
+        ]
+    )
+    assert code == EXIT_ERROR
+    err = capsys.readouterr().err
+    assert err.startswith("error: ")
+    assert str(mapping) in err
+    assert "not valid UTF-8" in err
+
+
+def test_an_amount_too_large_to_format_is_reported_as_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # parse_amount accepts this, and formatting it then exceeds the decimal context.
+    # No real ledger carries it, but the run must still end in an error line rather
+    # than an InvalidOperation traceback after the comparison has been produced.
+    pnl = tmp_path / "p.csv"
+    pnl.write_text(
+        "account,amount\nSales,999999999999999999999999999999\nPurchases,300000\n",
+        encoding="utf-8",
+    )
+    mapping = tmp_path / "m.csv"
+    mapping.write_text(
+        "account,bucket\nSales,turnover\nPurchases,cost_of_sales\n", encoding="utf-8"
+    )
+    code = main(
+        [
+            "compare",
+            "--profit-and-loss", str(pnl),
+            "--mapping", str(mapping),
+            "--industry", "bakeries",
+        ]
+    )
+    assert code == EXIT_ERROR
+    assert capsys.readouterr().err.startswith("error: ")
 
 
 def test_comparison_rejects_a_forced_digest_collision_before_routing_amounts(
