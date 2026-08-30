@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import io
 import re
 from collections.abc import Iterable
 from dataclasses import dataclass
@@ -353,7 +354,24 @@ def read_mapping(path: Path) -> dict[str, MappingRow]:
     """Read a mapping file into a dict keyed by stable account digest."""
     if not path.is_file():
         raise MappingError(f"mapping file not found: {path}")
-    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+    try:
+        # Decoded from bytes rather than read_text() so that no newline translation
+        # happens: an account name can carry a quoted newline, and the reader is given
+        # newline="" for the same reason a file handle would be.
+        data = path.read_bytes()
+        text = data.decode("utf-8-sig")
+    except UnicodeDecodeError as exc:
+        # UnicodeDecodeError is a ValueError, not a MappingError, so left alone it ends
+        # the run with a traceback rather than an error line naming the file. utf-8-sig
+        # strips the byte-order mark before decoding, so exc.start counts from the text
+        # after it. Add those three bytes back, or the position names nothing the
+        # operator can find in the file.
+        offset = exc.start + (3 if data.startswith(b"\xef\xbb\xbf") else 0)
+        raise MappingError(
+            f"{path}: not valid UTF-8 text at byte {offset}. Re-save the mapping as "
+            f"CSV UTF-8. A Windows export is usually cp1252, which this tool cannot read."
+        ) from exc
+    with io.StringIO(text, newline="") as handle:
         reader = csv.reader(handle)
         try:
             header = next(reader)

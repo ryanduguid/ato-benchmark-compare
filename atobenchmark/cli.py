@@ -1,7 +1,8 @@
 """Command line interface.
 
 Exit codes:
-    0  comparison produced and the key ratio sits inside the ATO range
+    0  comparison produced and nothing to flag: the key ratio sits inside the ATO
+       range, or no published range applies to this turnover
     1  the run could not produce a comparison
     2  comparison produced and the key ratio sits outside the ATO range
     3  comparison produced but accounts are still carrying suggested buckets
@@ -117,9 +118,17 @@ def cmd_map(args: argparse.Namespace) -> int:
     print(f"Wrote {out} with {len(draft.rows)} account(s) from a {source.layout} layout export.")
     print(f"Amounts were read from {source.amount_column}.")
     if draft.duplicates:
+        # The compare command refuses this export whatever the mapping holds, because
+        # route will not answer for a second ledger row of the same name and
+        # read_mapping will not accept a second mapping row for it. The export itself
+        # has to change, so the message asks for distinct names or one combined row.
         print(
-            f"{len(draft.duplicates)} repeated account name(s) collapsed to one row: "
-            f"{', '.join(draft.duplicates[:5])}"
+            f"{len(draft.duplicates)} account name(s) appear more than once in the "
+            f"export and share one mapping row: {', '.join(draft.duplicates[:5])}"
+        )
+        print(
+            "Give them distinct names in the export, or combine them into one row. "
+            "Until then compare will not run against this export."
         )
     if source.skipped:
         print(f"{len(source.skipped)} row(s) carried no readable amount and were left out:")
