@@ -9,9 +9,11 @@ transmit anything.
 ## Data boundary
 
 - Use invented data. The `.gitignore` blocks the file names a real ledger arrives
-  under, including `pnl*.csv`, `mapping*.csv`, `client-data/` and spreadsheet files,
-  with exceptions for `examples/` and `tests/fixtures/`. Put new fixtures in one of
-  those two directories.
+  under, including `pnl*.csv`, `mapping*.csv`, `client-data/` and spreadsheet files.
+  Put new fixtures in `examples/` or `tests/fixtures/`. Those two directories take a
+  `.xlsx` at their top level. A `.xls`, a `.xlsm`, or any spreadsheet in a
+  subdirectory stays blocked, so add the matching `.gitignore` exception in the same
+  change that adds the fixture.
 - No client, taxpayer or employee data, no ABNs tied to a real business, no
   screenshots of a live ledger, no credentials.
 - Check what a fixture implies as well as what it says. An invented profit and loss

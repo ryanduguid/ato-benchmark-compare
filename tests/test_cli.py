@@ -14,11 +14,11 @@ from atobenchmark.cli import (
     EXIT_OK,
     EXIT_OUTSIDE,
     EXIT_UNREVIEWED,
-    _bucket_totals,
     main,
 )
+from atobenchmark import pnl as pnl_module
 from atobenchmark.mapping import MappingError, MappingRow, read_mapping
-from atobenchmark.pnl import PnlFile, PnlRow
+from atobenchmark.pnl import PnlRow
 
 EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
 BAKERY_PNL = EXAMPLES / "bakery-pnl.csv"
@@ -384,20 +384,215 @@ def test_map_still_collapses_normalisation_equivalent_accounts(
     )
     mapped = tmp_path / "m.csv"
     assert main(["map", "--profit-and-loss", str(pnl), "--out", str(mapped)]) == EXIT_OK
-    assert "collapsed to one row" in capsys.readouterr().out
+    assert "appear more than once in the export" in capsys.readouterr().out
     assert len(read_mapping(mapped)) == 1
+
+
+def test_map_says_repeated_names_must_be_fixed_in_the_export(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # compare can never run against these two files, whatever is done to the mapping,
+    # so map has to name the export as the thing that must change. A message that reads
+    # as though the repetition was handled sends the user on to a dead end.
+    pnl = tmp_path / "source.csv"
+    pnl.write_text(
+        "account,amount\nSales,500000\nPurchases,100000\nPURCHASES,60000\n",
+        encoding="utf-8",
+    )
+    mapped = tmp_path / "m.csv"
+    assert main(["map", "--profit-and-loss", str(pnl), "--out", str(mapped)]) == EXIT_OK
+    printed = capsys.readouterr().out
+    assert "Give them distinct names in the export, or combine them into one row." in printed
+    assert "compare will not run against this export" in printed
+    assert "collapsed" not in printed
+
+    assert main(
+        [
+            "compare",
+            "--profit-and-loss", str(pnl),
+            "--mapping", str(mapped),
+            "--industry", "bakeries",
+        ]
+    ) == EXIT_ERROR
+    assert "appear more than once in the export" in capsys.readouterr().err
+
+
+def test_a_profit_and_loss_that_is_not_utf8_is_reported_as_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # "CSV (Comma delimited)" out of a Windows accounting package is cp1252, so the
+    # first accented account name is not valid UTF-8. UnicodeDecodeError is a
+    # ValueError and not one main catches, so unconverted it ends the run in a
+    # traceback where every other bad input gives one error line and exit 1.
+    pnl = tmp_path / "p.csv"
+    pnl.write_bytes("account,amount\nCafé supplies,1000\nSales,500000\n".encode("cp1252"))
+    mapping = tmp_path / "m.csv"
+    mapping.write_text("account,bucket\nSales,turnover\n", encoding="utf-8")
+    code = main(
+        [
+            "compare",
+            "--profit-and-loss", str(pnl),
+            "--mapping", str(mapping),
+            "--industry", "bakeries",
+        ]
+    )
+    assert code == EXIT_ERROR
+    err = capsys.readouterr().err
+    assert err.startswith("error: ")
+    assert str(pnl) in err
+    assert "not valid UTF-8" in err
+
+
+def test_a_mapping_that_is_not_utf8_is_reported_as_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    pnl = tmp_path / "p.csv"
+    pnl.write_text("account,amount\nSales,500000\n", encoding="utf-8")
+    mapping = tmp_path / "m.csv"
+    mapping.write_bytes(
+        "account,bucket\nCafé supplies,cost_of_sales\nSales,turnover\n".encode("cp1252")
+    )
+    code = main(
+        [
+            "compare",
+            "--profit-and-loss", str(pnl),
+            "--mapping", str(mapping),
+            "--industry", "bakeries",
+        ]
+    )
+    assert code == EXIT_ERROR
+    err = capsys.readouterr().err
+    assert err.startswith("error: ")
+    assert str(mapping) in err
+    assert "not valid UTF-8" in err
+
+
+def test_an_amount_too_large_to_format_is_reported_as_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # parse_amount accepts this, and formatting it then exceeds the decimal context.
+    # No real ledger carries it, but the run must still end in an error line rather
+    # than an InvalidOperation traceback after the comparison has been produced.
+    pnl = tmp_path / "p.csv"
+    pnl.write_text(
+        "account,amount\nSales,999999999999999999999999999999\nPurchases,300000\n",
+        encoding="utf-8",
+    )
+    mapping = tmp_path / "m.csv"
+    mapping.write_text(
+        "account,bucket\nSales,turnover\nPurchases,cost_of_sales\n", encoding="utf-8"
+    )
+    code = main(
+        [
+            "compare",
+            "--profit-and-loss", str(pnl),
+            "--mapping", str(mapping),
+            "--industry", "bakeries",
+        ]
+    )
+    assert code == EXIT_ERROR
+    assert capsys.readouterr().err.startswith("error: ")
+
+
+def test_an_amount_too_large_to_ratio_is_reported_as_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # The test above puts the oversized figure on turnover, where a formatter reaches
+    # it first. Put it on an expense beside a tiny turnover and the ratio arithmetic
+    # gets there first instead, through ratios.quantise, which had no guard of its own
+    # and ended the run in an InvalidOperation traceback.
+    pnl = tmp_path / "p.csv"
+    pnl.write_text(
+        "account,amount\nSales,1\nPurchases,999999999999999999999999999999\n",
+        encoding="utf-8",
+    )
+    mapping = tmp_path / "m.csv"
+    mapping.write_text(
+        "account,bucket\nSales,turnover\nPurchases,cost_of_sales\n", encoding="utf-8"
+    )
+    code = main(
+        [
+            "compare",
+            "--profit-and-loss", str(pnl),
+            "--mapping", str(mapping),
+            "--industry", "bakeries",
+        ]
+    )
+    assert code == EXIT_ERROR
+    assert capsys.readouterr().err.startswith("error: ")
+
+
+def test_a_quoted_crlf_in_an_account_name_reaches_the_reader_intact(
+    tmp_path: Path,
+) -> None:
+    # This pins string fidelity: both readers hand back the name the file holds.
+    # Matching survives either spelling, because normalise_account collapses \s+ to one
+    # space, so 'Sales\r\nNorth' and 'Sales\nNorth' reach the same account_key. What
+    # read_text() broke is every place the name is written back out: running map against
+    # an export holding the CRLF drafted a mapping file whose account column read
+    # 'Sales\nNorth', a name the export does not contain.
+    name = 'Sales\r\nNorth'
+    pnl = tmp_path / "p.csv"
+    pnl.write_bytes(b'account,amount\r\n"Sales\r\nNorth",500000\r\n')
+    mapping = tmp_path / "m.csv"
+    mapping.write_bytes(b'account,bucket\r\n"Sales\r\nNorth",turnover\r\n')
+
+    rows = pnl_module.read(pnl).rows
+    assert [row.account for row in rows] == [name]
+    assert set(mapping_module.read_mapping(mapping)) == {
+        mapping_module.account_key(name)
+    }
+
+
+def test_an_export_whose_rows_end_in_a_bare_cr_is_read(tmp_path: Path) -> None:
+    # Decoding from bytes drops the universal-newline translation read_text() applied,
+    # which is what makes newline="" on the csv reader load bearing. A classic-Mac
+    # export ends its rows with a bare CR and no LF. Left at the StringIO default the
+    # whole file is one line, and csv raises "new-line character seen in unquoted
+    # field" before any row is parsed.
+    pnl = tmp_path / "p.csv"
+    pnl.write_bytes(b"account,amount\rSales,500000\rPurchases,120000\r")
+    assert [(row.account, row.amount) for row in pnl_module.read(pnl).accounts] == [
+        ("Sales", Decimal("500000")),
+        ("Purchases", Decimal("120000")),
+    ]
+
+    mapping = tmp_path / "m.csv"
+    mapping.write_bytes(b"account,bucket\rSales,turnover\rPurchases,cost_of_sales\r")
+    assert set(mapping_module.read_mapping(mapping)) == {
+        mapping_module.account_key("Sales"),
+        mapping_module.account_key("Purchases"),
+    }
+
+
+@pytest.mark.parametrize("with_bom", [False, True])
+def test_the_reported_byte_position_counts_from_the_start_of_the_file(
+    tmp_path: Path, with_bom: bool
+) -> None:
+    # utf-8-sig strips the byte-order mark before decoding, so the position the
+    # decoder reports counts from the text after it. Left uncorrected the message
+    # named a byte three earlier than the one an operator opening the file would find.
+    prefix = b"\xef\xbb\xbf" if with_bom else b""
+    payload = prefix + b"account,amount\nSales,\xff00\n"
+    expected = payload.index(b"\xff")
+
+    pnl = tmp_path / "p.csv"
+    pnl.write_bytes(payload)
+    with pytest.raises(pnl_module.PnlError, match=f"at byte {expected}\\."):
+        pnl_module.read(pnl)
+
+    mapping = tmp_path / "m.csv"
+    mapping.write_bytes(prefix + b"account,bucket\nSales,\xffturnover\n")
+    expected_mapping = (prefix + b"account,bucket\nSales,\xffturnover\n").index(b"\xff")
+    with pytest.raises(MappingError, match=f"at byte {expected_mapping}\\."):
+        mapping_module.read_mapping(mapping)
 
 
 def test_comparison_rejects_a_forced_digest_collision_before_routing_amounts(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     monkeypatch.setattr(mapping_module, "account_key", lambda _account: "a" * 64, raising=False)
-    source = PnlFile(
-        rows=(PnlRow("Rent", Decimal("10"), line_number=2),),
-        layout="neutral",
-        amount_column="amount",
-        skipped=(),
-    )
+    source = (PnlRow("Rent", Decimal("10"), line_number=2),)
     rows = {"a" * 64: MappingRow("Sales", "turnover", "reviewed")}
     with pytest.raises(MappingError, match="collision"):
-        _bucket_totals(source, rows, flip=False)
+        mapping_module.route(source, rows, flip=False)
