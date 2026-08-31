@@ -1,3 +1,10 @@
+# v0.1.5
+
+- add structured dependency metadata for calculation warnings and comparison notes;
+- add the public `to_evidenced_dict` serializer so omitted inputs are not presented as
+  zero-valued evidence; and
+- preserve the existing human-readable warning and note fields for compatibility.
+
 # v0.1.4
 
 Changes since `v0.1.3`:

@@ -4,6 +4,7 @@ from decimal import Decimal
 
 import pytest
 
+from atobenchmark import to_evidenced_dict
 from atobenchmark import dataset as ds
 from atobenchmark.ratios import (
     RatioError,
@@ -192,3 +193,113 @@ def test_service_industry_reports_no_cost_of_sales_benchmark() -> None:
     statuses = {verdict.key: verdict.status for verdict in comparison.verdicts}
     assert statuses["cost_of_sales_to_turnover"] == "no benchmark in this dataset"
     assert comparison.key_ratio == "total_expenses_to_turnover"
+
+
+def test_checks_expose_stable_codes_and_required_inputs() -> None:
+    figures = compute(
+        totals(
+            turnover="100000",
+            salary_wages="30000",
+            cost_of_sales_labour="5000",
+            associated_persons="1000",
+        ),
+        w1=Decimal("40000"),
+    )
+
+    check = next(item for item in figures.warning_details if item.code == "w1_used_for_labour")
+    assert check.text in figures.warnings
+    assert check.required_fields == frozenset(
+        {"w1", "salary_wages", "cost_of_sales_labour", "associated_persons"}
+    )
+
+
+def test_comparison_notes_expose_stable_codes_and_required_inputs() -> None:
+    data = ds.load("2023-24")
+    bakery = data.get("Bakeries and hot bread shops")
+    comparison = compare(data, bakery, compute(totals(turnover="40000", cost_of_sales="1")))
+
+    note = next(item for item in comparison.note_details if item.code == "turnover_below_range")
+    assert note.text in comparison.notes
+    assert note.required_fields == frozenset({"turnover", "other_income"})
+
+
+def test_evidenced_dict_withholds_unknown_denominator_and_dependent_prose() -> None:
+    data = ds.load("2023-24")
+    bakery = data.get("Bakeries and hot bread shops")
+    comparison = compare(
+        data,
+        bakery,
+        compute(totals(turnover="50000", cost_of_sales="15000")),
+    )
+
+    payload = to_evidenced_dict(
+        comparison,
+        {"turnover", "cost_of_sales"},
+    )
+
+    assert payload["turnover"] is None
+    assert payload["turnover_basis"] is None
+    assert payload["turnover_band"] is None
+    assert payload["figures"]["other_business_income"] is None
+    assert all(row["status"] == "not_supplied" for row in payload["ratios"])
+    assert all(row["benchmark_min"] is None for row in payload["ratios"])
+    assert not any("50,000.00" in note for note in payload["notes"])
+    assert "other_income" in payload["omitted_buckets"]
+
+
+def test_evidenced_dict_keeps_only_ratios_with_complete_inputs() -> None:
+    data = ds.load("2023-24")
+    bakery = data.get("Bakeries and hot bread shops")
+    comparison = compare(
+        data,
+        bakery,
+        compute(totals(turnover="850000", other_income="0", cost_of_sales="270000")),
+    )
+
+    payload = to_evidenced_dict(
+        comparison,
+        {"turnover", "other_income", "cost_of_sales"},
+    )
+    rows = {row["ratio"]: row for row in payload["ratios"]}
+
+    assert rows["cost_of_sales_to_turnover"]["status"] == "within"
+    assert rows["rent_to_turnover"]["status"] == "not_supplied"
+    assert payload["bucket_totals"]["rent"] is None
+    assert payload["figures"]["total_expenses"] is None
+    assert payload["complete_buckets"] is False
+    assert payload["unreviewed_accounts"] is None
+
+
+def test_evidenced_dict_filters_checks_by_structured_dependencies() -> None:
+    data = ds.load("2023-24")
+    bakery = data.get("Bakeries and hot bread shops")
+    comparison = compare(
+        data,
+        bakery,
+        compute(
+            totals(
+                turnover="850000",
+                other_income="0",
+                cost_of_sales_labour="500",
+                associated_persons="0",
+                rent="-500",
+            ),
+            w1=Decimal("200000"),
+        ),
+    )
+
+    payload = to_evidenced_dict(
+        comparison,
+        {
+            "turnover",
+            "other_income",
+            "cost_of_sales_labour",
+            "associated_persons",
+            "rent",
+            "w1",
+        },
+    )
+
+    assert not any("salary and wages label" in check for check in payload["checks_to_make"])
+    assert any("rent total is negative" in check for check in payload["checks_to_make"])
+    assert any("check(s) to make were withheld" in note for note in payload["notes"])

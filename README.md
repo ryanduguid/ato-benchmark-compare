@@ -146,6 +146,13 @@ Figures used
 Add `--json result.json` for the same result as structured data, including every
 bucket total and the source metadata.
 
+Library callers that distinguish an omitted figure from an evidenced zero can use
+`atobenchmark.to_evidenced_dict(comparison, supplied_fields)`; include `w1` in that
+collection when it was supplied.
+The serializer masks ratios and prose whose required inputs were not supplied and
+returns `supplied_buckets`, `omitted_buckets`, and `complete_buckets` alongside the
+ordinary comparison payload.
+
 Other commands:
 
 ```bash
