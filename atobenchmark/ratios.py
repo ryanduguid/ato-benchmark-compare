@@ -22,6 +22,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 
+from .evidence import EvidenceMessage
 from .mapping import BUCKETS, EXPENSE_BUCKETS
 from .money import AmountError
 
@@ -51,6 +52,18 @@ class Figures:
     labour: Decimal
     ratios: dict[str, Decimal] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
+    warning_details: list[EvidenceMessage] = field(default_factory=list)
+
+
+def _add_warning(
+    warnings: list[str],
+    details: list[EvidenceMessage],
+    code: str,
+    text: str,
+    required_fields: frozenset[str],
+) -> None:
+    warnings.append(text)
+    details.append(EvidenceMessage(code, text, required_fields))
 
 
 def quantise(value: Decimal) -> Decimal:
@@ -73,6 +86,7 @@ def compute(totals: dict[str, Decimal], w1: Decimal | None = None) -> Figures:
     """Turn bucket totals into ATO benchmark ratios."""
     amounts = {bucket: Decimal(totals.get(bucket, 0)) for bucket in BUCKETS}
     warnings: list[str] = []
+    warning_details: list[EvidenceMessage] = []
 
     trading_sales = amounts["turnover"]
     other_income = amounts["other_income"]
@@ -82,14 +96,22 @@ def compute(totals: dict[str, Decimal], w1: Decimal | None = None) -> Figures:
         turnover = total_business_income
         basis = TURNOVER_FROM_TOTAL_INCOME
         if trading_sales <= 0:
-            warnings.append(
+            _add_warning(
+                warnings,
+                warning_details,
+                "turnover_no_positive_sales",
                 "No positive sales of goods and services were mapped, so total business "
-                "income is used as turnover. That is the ATO rule, but check the mapping."
+                "income is used as turnover. That is the ATO rule, but check the mapping.",
+                frozenset({"turnover", "other_income"}),
             )
         else:
-            warnings.append(
+            _add_warning(
+                warnings,
+                warning_details,
+                "turnover_uses_total_income",
                 "Sales of goods and services are less than half of total business income, "
-                "so total business income is used as turnover."
+                "so total business income is used as turnover.",
+                frozenset({"turnover", "other_income"}),
             )
     else:
         turnover = trading_sales
@@ -119,40 +141,69 @@ def compute(totals: dict[str, Decimal], w1: Decimal | None = None) -> Figures:
         if w1 < 0:
             raise RatioError("the activity statement W1 amount cannot be negative")
         if w1 > salary_and_wages:
-            warnings.append(
+            _add_warning(
+                warnings,
+                warning_details,
+                "w1_used_for_labour",
                 f"Activity statement W1 ({w1}) is greater than the salary and wages "
                 f"label ({salary_and_wages}, the mapped salary and wages plus payments "
-                f"to associates), so W1 is used in the labour ratio."
+                f"to associates), so W1 is used in the labour ratio.",
+                frozenset(
+                    {"w1", "salary_wages", "cost_of_sales_labour", "associated_persons"}
+                ),
             )
             salary_and_wages = w1
     labour = salary_and_wages - associated + amounts["contractor_commission"]
 
     for bucket in sorted(EXPENSE_BUCKETS):
         if amounts[bucket] < 0:
-            warnings.append(
+            _add_warning(
+                warnings,
+                warning_details,
+                "negative_expense_bucket",
                 f"The {bucket} total is negative ({amounts[bucket]}). Check the sign "
-                f"convention of the export, or use --flip-expense-signs."
+                f"convention of the export, or use --flip-expense-signs.",
+                frozenset({bucket}),
             )
     if labour < 0:
-        warnings.append(
+        labour_fields = {"salary_wages", "cost_of_sales_labour", "contractor_commission"}
+        if w1 is not None:
+            labour_fields.update({"w1", "associated_persons"})
+        _add_warning(
+            warnings,
+            warning_details,
+            "negative_labour",
             "Labour is negative. Check the sign convention of the wage and contractor "
-            "accounts, or use --flip-expense-signs."
+            "accounts, or use --flip-expense-signs.",
+            frozenset(labour_fields),
         )
     if cost_of_sales_for_ratio > 0 and amounts["cost_of_sales_labour"] == 0:
-        warnings.append(
+        _add_warning(
+            warnings,
+            warning_details,
+            "cost_of_sales_labour_zero",
             "No salary and wages were mapped inside cost of sales. The ATO excludes wages "
-            "from the cost of sales ratio, so confirm none are sitting in those accounts."
+            "from the cost of sales ratio, so confirm none are sitting in those accounts.",
+            frozenset({"cost_of_sales", "cost_of_sales_labour"}),
         )
     if w1 is None and salary_wages_mapped > 0:
-        warnings.append(
+        _add_warning(
+            warnings,
+            warning_details,
+            "w1_not_supplied",
             "No activity statement W1 amount was supplied. The ATO uses W1 for the labour "
-            "ratio when it exceeds the salary and wages figure. Pass --w1 to apply that rule."
+            "ratio when it exceeds the salary and wages figure. Pass --w1 to apply that rule.",
+            frozenset({"salary_wages", "cost_of_sales_labour"}),
         )
     if associated == 0:
-        warnings.append(
+        _add_warning(
+            warnings,
+            warning_details,
+            "associated_persons_zero",
             "No payments to associated persons were mapped. Wages, directors fees and "
             "management fees paid to associates are deducted from total expenses, so a "
-            "zero here raises the total expenses ratio."
+            "zero here raises the total expenses ratio.",
+            frozenset({"associated_persons"}),
         )
 
     ratios = {
@@ -176,4 +227,5 @@ def compute(totals: dict[str, Decimal], w1: Decimal | None = None) -> Figures:
         labour=labour,
         ratios=ratios,
         warnings=warnings,
+        warning_details=warning_details,
     )
