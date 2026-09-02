@@ -1,5 +1,15 @@
 # ato-benchmark-compare
 
+> [!IMPORTANT]
+> **Repository migration: 2 September 2026.** We moved maintained development to
+> [`packages/ato-benchmark-compare`](https://github.com/ryanduguid/australian-accounting/tree/main/packages/ato-benchmark-compare)
+> in Australian Accounting. The first replacement release is
+> [`v0.1.6`](https://github.com/ryanduguid/australian-accounting/releases/tag/ato-benchmark-compare/v0.1.6).
+>
+> Keep this repository's [`v0.1.5`](https://github.com/ryanduguid/ato-benchmark-compare/releases/tag/v0.1.5)
+> as the rollback release until the fourteen-day observation window closes on
+> 16 September 2026. Open new issues and pull requests in Australian Accounting.
+
 ```
 +----------------------------------------------------------------------+
 |                        ato-benchmark-compare                         |
